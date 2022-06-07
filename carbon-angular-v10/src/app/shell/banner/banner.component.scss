@@ -1,0 +1,29 @@
+@import '~carbon-components/scss/globals/scss/vars';
+@import '~carbon-components/scss/globals/scss/typography';
+
+@mixin banner-background() {
+  background-color: $ui-01;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: -$spacing-05;
+    top: 0;
+    right: -$spacing-05;
+    bottom: 0;
+    background: $ui-01;
+    z-index: -1;
+  }
+}
+
+.shell-banner {
+  padding-top: $spacing-05;
+  padding-bottom: $spacing-10;
+  z-index: -1; // To fix the capturing
+  @include banner-background();
+}
+
+.shell-banner__heading {
+  @include type-style('productive-heading-04');
+}

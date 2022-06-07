@@ -1,0 +1,17 @@
+<ibm-header name="Carbon Angular (V10)" brand="" [route]="['/']">
+  <ibm-hamburger [active]="hamburgerActivated" (selected)="toggleExpansion($event)"></ibm-hamburger>
+  <ibm-header-navigation ariaLabel="Carbon Angular (V10)">
+    <ibm-header-item [route]="['/repos']">Repos</ibm-header-item>
+  </ibm-header-navigation>
+  <ibm-header-global>
+    <ibm-header-action title="action">
+      <svg ibmIconNotification size="20"></svg>
+    </ibm-header-action>
+    <ibm-header-action title="action">
+      <svg ibmIconUserAvatar size="20"></svg>
+    </ibm-header-action>
+    <ibm-header-action title="action">
+      <svg ibmIconAppSwitcher size="20"></svg>
+    </ibm-header-action>
+  </ibm-header-global>
+</ibm-header>

@@ -1,0 +1,43 @@
+@import '~carbon-components/scss/globals/scss/vars';
+@import '~carbon-components/scss/globals/scss/typography';
+
+ibm-sidenav::ng-deep > nav.bx--side-nav__navigation {
+  border-right: 1px solid #e0e0e0; // Copied from carbondesignsystem.com
+}
+
+@mixin main-background() {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: $ui-01;
+    z-index: -1;
+    height: calc(100vh - 3rem);
+  }
+}
+
+main.bx--content {
+  padding: 0; // Adjust for latest Carbon Angular, same as landing-page.component.scss
+  @include main-background();
+}
+
+main.bx--content--no-background::before {
+  background: initial;
+}
+
+main.bx--content--no-background::ng-deep .bx--grid--full-width:not(.shell-banner) {
+  margin-top: rem(-40px);
+  z-index: 1;
+}
+
+main.bx--content--no-background::ng-deep .bx--grid--full-width.landing-page {
+  // Cancel the above rule for the landing-page since it's from tutorial and doesn't
+  // take part in the practice
+  margin-top: initial;
+  z-index: initial;
+}

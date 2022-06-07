@@ -1,0 +1,27 @@
+<app-header 
+  [hamburgerActivated]="sidenavExpanded"
+  (hamburgerSelected)="toggleSidenav($event)"></app-header>
+
+<!-- <app-sidenav [expanded]="sidenavExpanded"></app-sidenav> -->
+<!-- Let the "ibm-sidenav" and "main" be siblings to leverage Carbon's style for handling sidenav expand/collapse -->
+<ibm-sidenav [rail]="true" [expanded]="sidenavExpanded">
+  <ibm-sidenav-item [route]="['/']">
+    <svg ibmIconHome size="16"></svg>
+    Home
+  </ibm-sidenav-item>
+  <ibm-sidenav-menu title="Banner">
+    <!-- icon attribute found in the carbon-components-angular\ui-shell\sidenav\sidenav-menu.component.d.ts -->
+    <svg ibmIconOpenPanelFilledTop icon size="16"></svg>
+    <ibm-sidenav-item [route]="['/dashboard']">Banner</ibm-sidenav-item>
+    <ibm-sidenav-item [route]="['/dashboard/nav']">Banner w/Navigation</ibm-sidenav-item>
+  </ibm-sidenav-menu>
+  <ibm-sidenav-item [route]="['/tutorial']">
+    <svg ibmIconBookmark size="16"></svg>
+    Tutorial
+  </ibm-sidenav-item>
+</ibm-sidenav>
+
+<main class="bx--content" [ngClass]="classes">
+  <router-outlet name="banner"></router-outlet>
+  <router-outlet></router-outlet>
+</main>
