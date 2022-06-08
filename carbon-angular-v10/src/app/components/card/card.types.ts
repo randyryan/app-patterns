@@ -5,7 +5,9 @@ type CardAccent = {
 };
 
 type CardAspectRatio = {
-  // TODO: Complete the aspect ratio.
+  width?: 1 | 2 | 3 | 4 | 9 | 16;
+  height?: 1 | 2 | 3 | 4 | 9 | 16;
+  golden?: 'vertical' | 'horizontal';
 };
 
 export type { CardAccent, CardAspectRatio };
