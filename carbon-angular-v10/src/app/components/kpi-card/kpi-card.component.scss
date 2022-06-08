@@ -1,0 +1,27 @@
+@import '~carbon-components/scss/globals/scss/vars';
+@import '~carbon-components/scss/globals/scss/typography';
+
+[heading] {
+  width: $spacing-06;
+  height: $spacing-06;
+}
+
+[body] .kpi {
+  position: absolute;
+  bottom: $spacing-05;
+}
+
+[body] .kpi > .bx--col-lg-16 {
+  display: flex;
+  align-items: flex-end;
+  gap: $spacing-02;
+}
+
+[body] .kpi > .bx--col-lg-16 > .kpi_value {
+  @include carbon--type-style('display-01');
+}
+
+[body] .kpi > .bx--col-lg-16 > .kpi_percent {
+  font-size: $spacing-06;
+  color: $ui-04;
+}

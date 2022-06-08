@@ -1,0 +1,146 @@
+@import '~carbon-components/scss/globals/scss/vars';
+@import '~carbon-components/scss/globals/scss/typography';
+
+.dashboard-card {
+  padding: $spacing-05;
+  background-color: $ui-01;
+}
+
+// Header
+
+.dashboard-card__header {
+  margin-bottom: $spacing-05;
+}
+
+.dashboard-card__header > .bx--col-lg-16 {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dashboard-card__header .dashboard-card__heading {
+  @include carbon--type-style('heading-01');
+}
+
+.dashboard-card__header::ng-deep ibm-tag {
+  margin-top: -$spacing-01;
+  margin-right: -$spacing-01;
+  height: $spacing-05;
+}
+
+// Accent
+
+// The borders of the card allowed to get accentuated
+$dashboard-card--accent-borders: top, left, bottom;
+
+// The sizes of the accentuation. Levels are inspired by Carbon's grid breakpoints in
+// ('~carbon-components/scss/globals/scss/vendor/@carbon/layout/scss/breakpoint')
+$dashboard-card--accent-sizes: (
+  sm: (
+    accent: $spacing-01,
+  ),
+  md: (
+    accent: $spacing-02,
+  ),
+  lg: (
+    accent: $spacing-03,
+  ),
+  xlg: (
+    accent: $spacing-04,
+  ),
+  max: (
+    accent: $spacing-05,
+  ),
+);
+
+// The colors of the accentuation. Colors are inspired by Carbon's Tag's background colors in
+// ('~carbon-components/scss/components/tag/tokens')
+$dashboard-card--accent-colors: (
+  red: $carbon__red-60,
+  magenta: $carbon__magenta-60,
+  purple: $carbon__purple-60,
+  blue: $carbon__blue-60,
+  cyan: $carbon__cyan-60,
+  teal: $carbon__teal-60,
+  green: $carbon__green-60,
+  gray: $carbon__gray-80,
+  cool-gray: $carbon__cool-gray-60,
+  warm-gray: $carbon__warm-gray-60,
+);
+
+// Makes the classes that doesn't specify the color, using Blue 60 by default.
+@mixin dashboard-card--accent($border, $size) {
+  border-#{$border}: $size solid $carbon__blue-60;
+}
+
+@each $border in $dashboard-card--accent-borders {
+  @each $size in map-keys($dashboard-card--accent-sizes) {
+    $sizes: map-get($dashboard-card--accent-sizes, $size);
+    .dashboard-card--accent-#{$border}-#{$size} {
+      @include dashboard-card--accent($border, map-get($sizes, accent));
+    }
+  }
+}
+
+// Makes the classes that uses one of the Tag's color
+@mixin dashboard-card--accent-color($border, $size, $color) {
+  border-#{$border}: $size solid $color;
+}
+
+@each $border in $dashboard-card--accent-borders {
+  @each $size in map-keys($dashboard-card--accent-sizes) {
+    $sizes: map-get($dashboard-card--accent-sizes, $size);
+    @each $color in map-keys($dashboard-card--accent-colors) {
+      .dashboard-card--accent-#{$border}-#{$size}-#{'' + $color} {
+        @include dashboard-card--accent-color($border, map-get($sizes, accent), map-get($dashboard-card--accent-colors, $color));
+      }
+    }
+  }
+}
+
+// Theme
+
+.dashboard-card--theme-light {
+  background-color: $ui-02;
+}
+
+// Aspect ratio
+// Carbon Design System have a definition for aspect ratio in Grid in 'carbon-components/scss/globals/scss/vendor/@carbon/grid/scss/grid'
+// But we have a different approach.
+
+$dashboard-card--aspect-ratios: (
+  golden: 61.8%,
+  three2: 66.6%,
+  four3: 75%,
+  five4: 80%,
+  square: 100%,
+);
+
+@mixin dashboard-card--aspect-ratio($ratio) {
+  padding-top: map-get($dashboard-card--aspect-ratios, $ratio);
+}
+
+@each $ratio in map-keys($dashboard-card--aspect-ratios) {
+  :host.dashboard-card--aspect-ratio-#{$ratio}:before {
+    content: '';
+    display: block;
+    @include dashboard-card--aspect-ratio($ratio);
+  }
+}
+
+:host[class*='dashboard-card--aspect-ratio'] {
+  display: block;
+  position: relative;
+}
+
+// :host[class*='dashboard-card--aspect-ratio']:before {
+//   content: '';
+//   display: block;
+// }
+
+:host[class*='dashboard-card--aspect-ratio'] .dashboard-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}

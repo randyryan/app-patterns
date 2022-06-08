@@ -5,6 +5,7 @@ import { BreadcrumbModule, GridModule, UIShellModule } from 'carbon-components-a
 import {
   AppSwitcherModule,
   BookmarkModule,
+  CodeModule,
   DashboardModule,
   HomeModule,
   NotificationModule,
@@ -28,6 +29,7 @@ import { BannerComponent } from './banner/banner.component';
     UIShellModule,
     BreadcrumbModule,
     HomeModule,
+    CodeModule,
     DashboardModule,
     BookmarkModule,
     AppSwitcherModule,
@@ -39,6 +41,7 @@ import { BannerComponent } from './banner/banner.component';
     SidenavComponent,
     BannerComponent,
     HomeModule,
+    CodeModule,
     OpenPanelFilledTopModule,
     DashboardModule,
     BookmarkModule,

@@ -1,0 +1,22 @@
+<!-- NOTE: Carbon Design System offers a Tile component in places where the "Card" pattern is often used.
+           See https://carbondesignsystem.com/components/tile/usage#overview.
+           However, this "Card" component is designed specifically for scenarios like Dashboard and collect
+           some of the most common elements when you Google "dashboard". See more for Dashboard cards:
+           https://www.nngroup.com/articles/dashboard-cards-component/
+           https://www.ibm.com/standards/carbon/components/dashboard-cards/ -->
+<article ibmGrid class="bx--grid-no-gutter dashboard-card" [ngClass]="classes">
+  <header ibmRow class="dashboard-card__header" *ngIf="heading !== ''">
+    <div ibmCol class="bx--no-gutter" [columnNumbers]="{ lg: 16 }">
+      <h1 class="dashboard-card__heading">{{ heading }}</h1>
+      <ng-content select="[heading]"></ng-content>
+    </div>
+  </header>
+  <section ibmRow class="dashboard-card__body">
+    <div ibmCol class="bx--no-gutter" [columnNumbers]="{ lg: 16 }">
+      <ng-content select="[body]"></ng-content>
+    </div>
+  </section>
+  <footer ibmRow class="dashboard-card__footer">
+    <ng-content select="[footer]"></ng-content>
+  </footer>
+</article>

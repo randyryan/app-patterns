@@ -1,0 +1,13 @@
+<app-card [heading]="kpi.name"
+          [accent]="{ border: 'top', size: 'sm', color: 'magenta' }"
+          [theme]="'light'">
+  <svg heading ibmIconFire size="24"></svg>
+  <div body ibmGrid class="bx--grid--no-gutter bx--grid--full-width">
+    <div ibmRow class="kpi">
+      <div ibmCol class="bx--no-gutter" [columnNumbers]="{ lg: 16 }">
+        <span class="kpi_value">{{ kpi.value }}</span>
+        <span class="kpi_percent" *ngIf="kpi.type === 'percent'">%</span>
+      </div>
+    </div>
+  </div>
+</app-card>
