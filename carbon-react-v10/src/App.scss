@@ -1,0 +1,17 @@
+@import 'carbon-components/scss/globals/scss/typography';
+@import 'carbon-components/scss/globals/scss/vars';
+
+@import './components/TutorialHeader/tutorial-header';
+@import './content/LandingPage/landing-page';
+@import './content/RepoPage/repo-page';
+
+// Overrides
+
+.bx--content {
+  padding: 0;
+}
+
+.bx--grid--full-width .bx--grid--full-width {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
