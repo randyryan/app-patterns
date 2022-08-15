@@ -12,11 +12,11 @@ const TutorialHeader = () => (
           onClick={onClickSideNavExpand}
           isActive={isSideNavExpanded}
         />
-        <HeaderName<LinkProps> element={Link} to="/" prefix="IBM">
-          Carbon Tutorial
+        <HeaderName<LinkProps> element={Link} to="/" prefix="">
+          Carbon React (V10)
         </HeaderName>
         <HeaderNavigation aria-label="Carbon Tutorial">
-          <HeaderMenuItem<LinkProps> element={Link} to="/repos">Repositories</HeaderMenuItem>
+          <HeaderMenuItem<LinkProps> element={Link} to="/repos">Repos</HeaderMenuItem>
         </HeaderNavigation>
         <SideNav
           aria-label="Side navigation"

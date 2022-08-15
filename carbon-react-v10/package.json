@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.6.9",
     "@carbon/charts": "^1.5.0",
     "@carbon/charts-react": "^1.5.0",
     "@carbon/icons": "^10.31.0",
@@ -13,6 +14,7 @@
     "carbon-components": "^10.55.1",
     "carbon-components-react": "^7.55.1",
     "carbon-icons": "^7.0.7",
+    "graphql": "^16.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.2",
