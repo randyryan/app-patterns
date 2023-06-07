@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-time-picker',
+  selector: 'app-data-time-picker',
   templateUrl: './data-time-picker.component.html',
   styleUrls: ['./data-time-picker.component.scss']
 })
