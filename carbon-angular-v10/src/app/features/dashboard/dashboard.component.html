@@ -4,4 +4,12 @@
       <p>This is a dashboard page, the dashboard page uses a banner that act as a part of the page showing Breadcrumbs and a Heading.</p>
     </div>
   </div>
+  <div ibmRow>
+    <div ibmCol class="bx--offset-lg-4" [columnNumbers]="{ lg: 2 }">
+      <app-time-picker label="Picker"></app-time-picker>
+    </div>
+    <div ibmCol [columnNumbers]="{ lg: 2 }">
+      <app-data-time-select label="Select"></app-data-time-select>
+    </div>
+  </div>
 </div>

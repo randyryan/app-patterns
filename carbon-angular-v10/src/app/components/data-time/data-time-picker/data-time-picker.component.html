@@ -1,0 +1,28 @@
+<div class="bx--list-box__wrapper">
+  <label class="bx--label" *ngIf="label" [for]="id" [ngClass]="{'bx--label--disabled': disabled}">{{label}}</label>
+  <div #listbox class="bx--list-box" [ngClass]="{
+    'bx--list-box--light': theme === 'light',
+    'bx--list-box--inline': inline,
+    'bx--list-box--sm': size === 'sm',
+    'bx--list-box--lg': size === 'xl',
+    'bx--list-box--disabled': disabled,
+    'bx--list-box--warning': warn,
+    'bx--list-box--expanded': dropdownOpen,
+    'bx--skeleton': skeleton
+  }">
+    <div class="bx--list-box__field" (click)="toggleDropdown()">
+      <svg class="bx--list-box__invalid-icon"
+           *ngIf="!warn && invalid" ibmIcon="warning--filled" size="16">
+      </svg>
+      <svg class="bx--list-box__invalid-icon bx--list-box__invalid-icon--warning"
+           *ngIf="!invalid && warn" ibmIcon="warning--alt--filled" size="16">
+      </svg>
+      <!-- Unlike data-time-select, this button is getting focus so the bx--list-box__field cannot leverage the 
+           style defined for .bx--list--box__field:focus -->
+      <!-- This button is getting the .bx--list-box__menu-icon so the chevron icon has a flip animation -->
+      <button class="bx--list-box__menu-icon" [ngClass]="{'bx--list-box__menu-icon--open': !dropdownOpen }">
+        <svg *ngIf="!skeleton" ibmIcon="chevron--down" size="16"></svg>
+      </button>
+    </div>
+  </div>
+</div>

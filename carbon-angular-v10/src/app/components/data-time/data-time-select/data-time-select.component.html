@@ -1,0 +1,35 @@
+<div class="bx--list-box__wrapper">
+  <label class="bx--label" *ngIf="label" [for]="id" [ngClass]="{'bx--label--disabled': disabled}">{{label}}</label>
+  <div #listbox class="bx--list-box" [ngClass]="{
+    'bx--list-box--light': theme === 'light',
+    'bx--list-box--inline': inline,
+    'bx--list-box--sm': size === 'sm',
+    'bx--list-box--lg': size === 'xl',
+    'bx--list-box--disabled': disabled,
+    'bx--list-box--warning': warn,
+    'bx--list-box--expanded': dropdownOpen,
+    'bx--skeleton': skeleton
+  }">
+    <button #dropdownButton class="bx--list-box__field" [ngClass]="{'a': dropdownOpen}"
+      (click)="disabled ? $event.stopPropagation() : toggleDropdown()">
+      <span class="bx--list-box__label">1 hour</span>
+      <svg class="bx--dropdown__invalid-icon"
+           *ngIf="!warn && invalid" ibmIcon="warning--filled" size="16">
+      </svg>
+      <svg class="bx--list-box__invalid-icon bx--list-box__invalid-icon--warning"
+           *ngIf="!invalid && warn" ibmIcon="warning--alt--filled" size="16">
+      </svg>
+      <!-- Not sure why the chevron flip animation is not working like the one as button in picker -->
+      <span class="bx--list-box__menu-icon">
+        <svg
+          *ngIf="!skeleton"
+          ibmIcon="chevron--down"
+          size="16"
+          [ngClass]="{'bx--list-box__menu-icon--open': dropdownOpen }">
+        </svg>
+      </span>
+    </button>
+  </div>
+</div>
+
+
