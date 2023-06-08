@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { DatePickerModule, GridModule, TimePickerModule, TimePickerSelectModule } from 'carbon-components-angular';
+import { DatePickerModule, DropdownModule, GridModule, TimePickerModule, TimePickerSelectModule } from 'carbon-components-angular';
 
 import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
@@ -18,7 +18,8 @@ import { DataTimeModule } from 'src/app/components/data-time/data-time.module';
     DataTimeModule,
     DatePickerModule,
     TimePickerModule,
-    TimePickerSelectModule
+    TimePickerSelectModule,
+    DropdownModule
   ]
 })
 export class DashboardModule { }

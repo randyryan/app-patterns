@@ -37,6 +37,9 @@
           <svg *ngIf="!skeleton" ibmIconChevronDown size="16"></svg>
         </span>
       </button>
+      <div #dropdownMenu>
+        <ng-content *ngIf="dropdownOpen"></ng-content>
+      </div>
     </div>
     <div class="bx--list-box bx--list-box--action" [ngClass]="{
       'bx--list-box--light': theme === 'light',

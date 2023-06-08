@@ -11,7 +11,9 @@
   </div>
   <div ibmRow>
     <div ibmCol class="bx--offset-lg-4" [columnNumbers]="{ lg: 4 }">
-      <app-data-time-select label="Select" [inline]="true"></app-data-time-select>
+      <app-data-time-select label="Select" [inline]="true">
+        <ibm-dropdown-list [items]="items"></ibm-dropdown-list>
+      </app-data-time-select>
     </div>
   </div>
 </div>
