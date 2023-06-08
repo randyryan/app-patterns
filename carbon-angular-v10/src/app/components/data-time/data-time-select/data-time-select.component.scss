@@ -1,3 +1,20 @@
-.bx--list-box__wrapper .bx--list-boxes {
+.bx--list-boxes {
   display: flex;
+}
+
+.bx--list-box--head, .bx--list-box--action {
+  width: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bx--list-box--head:hover, .bx--list-box--action:hover {
+  background-color: initial;
+  cursor: initial;
+}
+
+.bx--list-box--action button .bx--btn__icon {
+  width: unset;
+  height: unset;
 }

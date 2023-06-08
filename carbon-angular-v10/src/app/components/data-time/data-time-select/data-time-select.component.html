@@ -1,10 +1,17 @@
 <div class="bx--list-box__wrapper">
   <label class="bx--label" *ngIf="label" [for]="id" [ngClass]="{'bx--label--disabled': disabled}">{{label}}</label>
   <div class="bx--list-boxes">
-    <div class="bx--list-box">
-      <div class="bx--list-box__selection">
-        <svg ibmIconTime size="16"></svg>
-      </div>
+    <div class="bx--list-box bx--list-box--head" [ngClass]="{
+      'bx--list-box--light': theme === 'light',
+      'bx--list-box--inline': inline,
+      'bx--list-box--sm': size === 'sm',
+      'bx--list-box--lg': size === 'xl',
+      'bx--list-box--disabled': disabled,
+      'bx--list-box--warning': warn,
+      'bx--list-box--expanded': dropdownOpen,
+      'bx--skeleton': skeleton
+    }">
+      <svg ibmIconTime size="20"></svg>
     </div>
     <div #listbox class="bx--list-box" [ngClass]="{
       'bx--list-box--light': theme === 'light',
@@ -29,6 +36,27 @@
         <span class="bx--list-box__menu-icon" [ngClass]="{'bx--list-box__menu-icon--open': dropdownOpen }">
           <svg *ngIf="!skeleton" ibmIconChevronDown size="16"></svg>
         </span>
+      </button>
+    </div>
+    <div class="bx--list-box bx--list-box--action" [ngClass]="{
+      'bx--list-box--light': theme === 'light',
+      'bx--list-box--inline': inline,
+      'bx--list-box--sm': size === 'sm',
+      'bx--list-box--lg': size === 'xl',
+      'bx--list-box--disabled': disabled,
+      'bx--list-box--warning': warn,
+      'bx--list-box--expanded': dropdownOpen,
+      'bx--skeleton': skeleton
+    }">
+      <button ibmButton="tertiary" [iconOnly]="true" size="sm" (click)="togglePause()">
+        <ng-container *ngIf="paused">
+          <svg class="bx--btn__icon" ibmIconPlay size="20"></svg>
+          <span class="bx--assistive-text">Pause Live</span>
+        </ng-container>
+        <ng-container *ngIf="!paused">
+          <svg class="bx--btn__icon" ibmIconPause size="20"></svg>
+          <span class="bx--assistive-text">Resume Live</span>
+        </ng-container>
       </button>
     </div>
   </div>

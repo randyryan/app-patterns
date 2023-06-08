@@ -9,6 +9,7 @@ export class DataTimeSelectComponent implements OnInit {
 
   dropdownOpen: boolean = false;
   invalid: boolean = false;
+  paused: boolean = false;
 
   @Input()
   label: string;
@@ -35,6 +36,10 @@ export class DataTimeSelectComponent implements OnInit {
 
   toggleDropdown(): void {
     this.dropdownOpen = !this.dropdownOpen;
+  }
+
+  togglePause(): void {
+    this.paused = !this.paused;
   }
 
 }

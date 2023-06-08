@@ -5,22 +5,13 @@
     </div>
   </div>
   <div ibmRow>
-    <div ibmCol class="bx--offset-lg-4" [columnNumbers]="{ lg: 2 }">
+    <div ibmCol class="bx--offset-lg-4" [columnNumbers]="{ lg: 4 }">
       <app-data-time-picker label="Picker"></app-data-time-picker>
     </div>
-    <div ibmCol [columnNumbers]="{ lg: 2 }">
-      <app-data-time-select label="Select"></app-data-time-select>
-    </div>
-    <div ibmCol [columnNumbers]="{ lg: 4 }">
-      <ibm-date-picker label="Date (start)" rangeLabel="Date (end)" [range]="true"></ibm-date-picker>
-    </div>
-    <div ibmCol [columnNumbers]="{ lg: 4 }">
-      <ibm-timepicker label="Time">
-        <ibm-timepicker-select>
-          <option selected value="AM">AM</option>
-          <option value="PM">PM</option>
-        </ibm-timepicker-select>
-      </ibm-timepicker>
+  </div>
+  <div ibmRow>
+    <div ibmCol class="bx--offset-lg-4" [columnNumbers]="{ lg: 4 }">
+      <app-data-time-select label="Select" [inline]="true"></app-data-time-select>
     </div>
   </div>
 </div>
