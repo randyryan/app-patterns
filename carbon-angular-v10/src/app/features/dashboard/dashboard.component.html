@@ -5,22 +5,17 @@
     </div>
   </div>
   <div ibmRow>
-    <div ibmCol class="bx--offset-lg-4" [columnNumbers]="{ lg: 4 }">
-      <app-data-time-select [inline]="true" size="xl" theme="light">
-        <ibm-dropdown-list [items]="items"></ibm-dropdown-list>
-      </app-data-time-select>
-    </div>
     <div ibmCol [columnNumbers]="{ lg: 4}">
-      <ibm-dropdown size="xl" [inline]="true" [appendInline]="true">
-        <ibm-dropdown-list [items]="items"></ibm-dropdown-list>
-      </ibm-dropdown>
+      <app-data-time-select label="inline small light" [inline]="true" size="sm" theme="light"></app-data-time-select>
     </div>
     <div ibmCol [columnNumbers]="{ lg: 4 }">
-      <app-card border="condense" [theme]="'light'">
-        <app-data-time-select body [inline]="true">
-          <ibm-dropdown-list [items]="items"></ibm-dropdown-list>
-        </app-data-time-select>
-      </app-card>
+      <app-data-time-select label="inline light" [inline]="true" theme="light"></app-data-time-select>
+    </div>
+    <div ibmCol [columnNumbers]="{ lg: 4 }">
+      <app-data-time-select label="inline large light" [inline]="true" size="lg" theme="light"></app-data-time-select>
+    </div>
+    <div ibmCol [columnNumbers]="{ lg: 4 }">
+      <app-data-time-select label="inline xlarge light" [inline]="true" size="xl" theme="light"></app-data-time-select>
     </div>
   </div>
 </div>

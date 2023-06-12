@@ -1,23 +1,27 @@
 <div class="bx--list-box__wrapper">
   <label class="bx--label" *ngIf="label" [for]="id" [ngClass]="{'bx--label--disabled': disabled}">{{label}}</label>
-  <div class="bx--list-boxes">
+  <div class="bx--list-boxes" [ngClass]="{ 'bx--list-boxes--light': theme === 'light' }">
     <div class="bx--list-box bx--list-box--head" [ngClass]="{
       'bx--list-box--light': theme === 'light',
       'bx--list-box--inline': inline,
-      'bx--list-box--sm': size === 'sm',
-      'bx--list-box--lg': size === 'xl',
+      'bx--list-box--sm bx--list-box--head--sm': size === 'sm',
+      'bx--list-box--lg bx--list-box--head--lg': size === 'lg',
+      'bx--list-box--xl bx--list-box--head--xl': size === 'xl',
       'bx--list-box--disabled': disabled,
       'bx--list-box--warning': warn,
       'bx--list-box--expanded': dropdownOpen,
       'bx--skeleton': skeleton
     }">
-      <svg ibmIconTime size="20"></svg>
+      <svg ibmIconTime size="20" *ngIf="size === 'sm'"></svg>
+      <svg ibmIconTime size="24" *ngIf="size !== 'sm' && size !== 'xl'"></svg>
+      <svg ibmIconTime size="32" *ngIf="size === 'xl'"></svg>
     </div>
     <div #listbox class="bx--list-box" [ngClass]="{
       'bx--list-box--light': theme === 'light',
       'bx--list-box--inline': inline,
       'bx--list-box--sm': size === 'sm',
-      'bx--list-box--lg': size === 'xl',
+      'bx--list-box--lg': size === 'lg',
+      'bx--list-box--xl': size === 'xl',
       'bx--list-box--disabled': disabled,
       'bx--list-box--warning': warn,
       'bx--list-box--expanded': dropdownOpen,
@@ -26,7 +30,7 @@
       <button #dropdownButton class="bx--list-box__field" [ngClass]="{'a': dropdownOpen}"
         (click)="disabled ? $event.stopPropagation() : toggleDropdown()">
 
-        <span class="bx--list-box__label">1 hour</span>
+        <ng-template [ngTemplateOutlet]="display"></ng-template>
         <svg class="bx--dropdown__invalid-icon"
              *ngIf="!warn && invalid" ibmIconWarningFilled size="16">
         </svg>
@@ -46,23 +50,30 @@
     <div class="bx--list-box bx--list-box--action" [ngClass]="{
       'bx--list-box--light': theme === 'light',
       'bx--list-box--inline': inline,
-      'bx--list-box--sm': size === 'sm',
-      'bx--list-box--lg': size === 'xl',
+      'bx--list-box--sm bx--list-box--action--sm': size === 'sm',
+      'bx--list-box--lg bx--list-box--action--lg': size === 'lg',
+      'bx--list-box--xl bx--list-box--action--xl': size === 'xl',
       'bx--list-box--disabled': disabled,
       'bx--list-box--warning': warn,
       'bx--list-box--expanded': dropdownOpen,
       'bx--skeleton': skeleton
     }">
-      <button ibmButton="tertiary" [iconOnly]="true" size="sm" (click)="togglePause()">
+      <button class="bx--list-box--action__button" ibmButton="ghost" size="sm" (click)="togglePause()">
         <ng-container *ngIf="paused">
-          <svg class="bx--btn__icon" ibmIconPlay size="20"></svg>
-          <span class="bx--assistive-text">Pause Live</span>
+          <svg class="bx--btn__icon" ibmIconPlay size="24"></svg>
+          Live
+          <span class="bx--assistive-text">Live</span>
         </ng-container>
         <ng-container *ngIf="!paused">
-          <svg class="bx--btn__icon" ibmIconPause size="20"></svg>
-          <span class="bx--assistive-text">Resume Live</span>
+          <ibm-loading size="sm"></ibm-loading>
+          Live
+          <span class="bx--assistive-text">Live</span>
         </ng-container>
       </button>
     </div>
   </div>
 </div>
+
+<ng-template #display>
+  <span class="bx--list-box__label">Last 2 hours</span>
+</ng-template>
