@@ -1,4 +1,6 @@
 @import '~carbon-components/scss/globals/scss/vars';
+@import '~carbon-components/scss/globals/scss/typography';
+@import '~carbon-components/scss/components/loading/keyframes';
 
 .bx--list-boxes {
   display: flex;
@@ -8,27 +10,28 @@
   background-color: white;
 }
 
+.bx--list-boxes--rounded-sm {
+  border-radius: $spacing-02;
+}
+
+.bx--list-boxes--rounded-md {
+  border-radius: $spacing-03;
+}
+
+.bx--list-boxes--rounded-lg {
+  border-radius: $spacing-04;
+}
+
+.bx--list-boxes--rounded-xl {
+  border-radius: $spacing-05;
+}
+
 .bx--list-box--xl {
   height: $spacing-10;
   max-height: $spacing-10;
 }
 
-// Head
-
-.bx--list-box--head {
-  margin-left: $spacing-03;
-  margin-right: $spacing-03;
-}
-
-.bx--list-box--head--lg {
-  margin-left: $spacing-04;
-  margin-right: $spacing-04;
-}
-
-.bx--list-box--head--xl {
-  margin-left: $spacing-05;
-  margin-right: $spacing-05;
-}
+// Head and Action
 
 .bx--list-box--head, .bx--list-box--action {
   display: flex;
@@ -40,6 +43,32 @@
 .bx--list-box--head:hover, .bx--list-box--action:hover {
   background-color: initial;
   cursor: initial;
+}
+
+// Head
+
+.bx--list-box--head svg {
+  fill: $ui-04;
+}
+
+.bx--list-box--head--sm {
+  margin-left: $spacing-03;
+  margin-right: $spacing-03;
+}
+
+.bx--list-box--head--md {
+  margin-left: 0.625rem; // Need the inbetween of $spacing-03 and @spacing-04
+  margin-right: 0.625rem;
+}
+
+.bx--list-box--head--lg {
+  margin-left: $spacing-04;
+  margin-right: $spacing-04;
+}
+
+.bx--list-box--head--xl {
+  margin-left: $spacing-05;
+  margin-right: $spacing-05;
 }
 
 // Action
@@ -54,14 +83,69 @@
   cursor: pointer;
 }
 
+// Size of the "Live" label at the right of the play/live icon
+
+.bx--list-box--action--lg button {
+  font-size: carbon--type-scale(3);
+}
+
+.bx--list-box--action--xl button {
+  font-size: carbon--type-scale(4);
+}
+
 .bx--list-box--action button .bx--btn__icon {
   width: unset;
   height: unset;
 }
 
-.bx--list-box--action.bx--list-box--xl button .bx--btn__icon {
-  margin-left: $spacing-03;
+// Live (Altered and simplified bx--loading)
+
+@mixin bx--loading--spin {
+  animation-name: rotate;
+  animation-duration: 5090ms;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+
+  svg circle {
+    animation-duration: 10ms;
+    animation-name: init-stroke;
+    animation-timing-function: $carbon--standard-easing;
+  }
+}
+
+.bx--loading {
+  @include bx--loading--spin();
   margin-right: $spacing-03;
+}
+
+.bx--loading--sm, .bx--live--sm {
+  width: $spacing-05;
+  height: $spacing-05;
+}
+
+.bx--loading--md, .bx--live--md {
+  width: 20px; // Need to follow the icon size of 20px
+  height: 20px;
+}
+
+.bx--loading--lg, .bx--live--lg {
+  width: $spacing-06;
+  height: $spacing-06;
+}
+
+.bx--loading--xl, .bx--live--xl {
+  width: $spacing-07;
+  height: $spacing-07;
+}
+
+.bx--live .bx--btn__icon {
+  margin-left: initial;
+  margin-right: 1rem;
+}
+
+.bx--live {
+  margin-right: $spacing-04;
 }
 
 // Menu

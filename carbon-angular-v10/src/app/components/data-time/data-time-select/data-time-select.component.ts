@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { DropdownService } from 'carbon-components-angular';
+import { ComponentSize } from '../data-time.type';
 
 @Component({
   selector: 'app-data-time-select',
@@ -27,11 +28,14 @@ export class DataTimeSelectComponent implements OnInit {
   id: string;
 
   @Input()
+  round: ComponentSize;
+  @Input()
+  size: ComponentSize;
+  @Input()
   theme: string;
   @Input()
   inline: boolean = false;
-  @Input()
-  size: string;
+
   @Input()
   disabled: boolean = false;
   @Input()

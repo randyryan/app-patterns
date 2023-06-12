@@ -1,10 +1,17 @@
 <div class="bx--list-box__wrapper">
   <label class="bx--label" *ngIf="label" [for]="id" [ngClass]="{'bx--label--disabled': disabled}">{{label}}</label>
-  <div class="bx--list-boxes" [ngClass]="{ 'bx--list-boxes--light': theme === 'light' }">
+  <div class="bx--list-boxes" [ngClass]="{
+    'bx--list-boxes--light': theme === 'light',
+    'bx--list-boxes--rounded-sm': round === 'sm',
+    'bx--list-boxes--rounded-md': round === 'md',
+    'bx--list-boxes--rounded-lg': round === 'lg',
+    'bx--list-boxes--rounded-xl': round === 'xl'
+  }">
     <div class="bx--list-box bx--list-box--head" [ngClass]="{
       'bx--list-box--light': theme === 'light',
       'bx--list-box--inline': inline,
       'bx--list-box--sm bx--list-box--head--sm': size === 'sm',
+      'bx--list-box--md bx--list-box--head--md': size === 'md',
       'bx--list-box--lg bx--list-box--head--lg': size === 'lg',
       'bx--list-box--xl bx--list-box--head--xl': size === 'xl',
       'bx--list-box--disabled': disabled,
@@ -12,14 +19,16 @@
       'bx--list-box--expanded': dropdownOpen,
       'bx--skeleton': skeleton
     }">
-      <svg ibmIconTime size="20" *ngIf="size === 'sm'"></svg>
-      <svg ibmIconTime size="24" *ngIf="size !== 'sm' && size !== 'xl'"></svg>
+      <svg ibmIconTime size="16" *ngIf="size === 'sm'"></svg>
+      <svg ibmIconTime size="20" *ngIf="size === 'md'"></svg>
+      <svg ibmIconTime size="24" *ngIf="size === 'lg'"></svg>
       <svg ibmIconTime size="32" *ngIf="size === 'xl'"></svg>
     </div>
     <div #listbox class="bx--list-box" [ngClass]="{
       'bx--list-box--light': theme === 'light',
       'bx--list-box--inline': inline,
       'bx--list-box--sm': size === 'sm',
+      'bx--list-box--md': size === 'md',
       'bx--list-box--lg': size === 'lg',
       'bx--list-box--xl': size === 'xl',
       'bx--list-box--disabled': disabled,
@@ -51,6 +60,7 @@
       'bx--list-box--light': theme === 'light',
       'bx--list-box--inline': inline,
       'bx--list-box--sm bx--list-box--action--sm': size === 'sm',
+      'bx--list-box--md bx--list-box--action--sm': size === 'md',
       'bx--list-box--lg bx--list-box--action--lg': size === 'lg',
       'bx--list-box--xl bx--list-box--action--xl': size === 'xl',
       'bx--list-box--disabled': disabled,
@@ -60,12 +70,31 @@
     }">
       <button class="bx--list-box--action__button" ibmButton="ghost" size="sm" (click)="togglePause()">
         <ng-container *ngIf="paused">
-          <svg class="bx--btn__icon" ibmIconPlay size="24"></svg>
+          <div class="bx--live" [ngClass]="{
+            'bx--live--sm': size === 'sm',
+            'bx--live--md': size === 'md',
+            'bx--live--lg': size === 'lg',
+            'bx--live--xl': size === 'xl'
+          }">
+            <svg class="bx--btn__icon" ibmIconPlay size="16" *ngIf="size === 'sm'"></svg>
+            <svg class="bx--btn__icon" ibmIconPlay size="20" *ngIf="size === 'md'"></svg>
+            <svg class="bx--btn__icon" ibmIconPlay size="24" *ngIf="size === 'lg'"></svg>
+            <svg class="bx--btn__icon" ibmIconPlay size="32" *ngIf="size === 'xl'"></svg>
+          </div>
           Live
           <span class="bx--assistive-text">Live</span>
         </ng-container>
         <ng-container *ngIf="!paused">
-          <ibm-loading size="sm"></ibm-loading>
+          <div class="bx--loading bx--live" [ngClass]="{
+            'bx--loading--sm bx--live--sm': size === 'sm',
+            'bx--loading--md bx--live--md': size === 'md',
+            'bx--loading--lg bx--live--lg': size === 'lg',
+            'bx--loading--xl bx--live--xl': size === 'xl'
+          }">
+            <svg class="bx--loading__svg" viewBox="0 0 100 100">
+              <circle class="bx--loading__stroke" cx="50%" cy="50%" r="44" />
+            </svg>
+          </div>
           Live
           <span class="bx--assistive-text">Live</span>
         </ng-container>
