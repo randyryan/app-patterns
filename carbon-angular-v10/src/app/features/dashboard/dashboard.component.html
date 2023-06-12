@@ -6,12 +6,12 @@
   </div>
   <div ibmRow>
     <div ibmCol class="bx--offset-lg-4" [columnNumbers]="{ lg: 4 }">
-      <app-data-time-select label="Select" [inline]="true">
+      <app-data-time-select [inline]="true" size="xl" theme="light">
         <ibm-dropdown-list [items]="items"></ibm-dropdown-list>
       </app-data-time-select>
     </div>
     <div ibmCol [columnNumbers]="{ lg: 4}">
-      <ibm-dropdown label="Dropdown" [inline]="false" [appendInline]="true">
+      <ibm-dropdown size="xl" [inline]="true" [appendInline]="true">
         <ibm-dropdown-list [items]="items"></ibm-dropdown-list>
       </ibm-dropdown>
     </div>

@@ -38,7 +38,9 @@
         </span>
       </button>
       <div #dropdownMenu>
-        <ng-content *ngIf="dropdownOpen"></ng-content>
+        <ul tabindex="-1" #listboxMenu class="bx--list-box__menu" *ngIf="dropdownOpen">
+          <li><button ibmButton="primary">5 m</button></li>
+        </ul>
       </div>
     </div>
     <div class="bx--list-box bx--list-box--action" [ngClass]="{
@@ -64,5 +66,3 @@
     </div>
   </div>
 </div>
-
-

@@ -9,8 +9,9 @@ import { DropdownService } from 'carbon-components-angular';
 export class DataTimeSelectComponent implements OnInit {
 
   @ViewChild("listbox", { static: true }) listbox: ElementRef;
+  @ViewChild("listboxMenu", { static: false }) listboxMenu: ElementRef;
   @ViewChild("dropdownButton", { static: true }) dropdownButton: ElementRef;
-  @ViewChild("dropdownMenu", { static: false }) dropdownMenu: ElementRef;
+  @ViewChild("dropdownMenu", { static: true }) dropdownMenu: ElementRef;
 
   dropdownOpen: boolean = false;
   invalid: boolean = false;
@@ -45,14 +46,16 @@ export class DataTimeSelectComponent implements OnInit {
 
   openDropdown(): void {
     this.dropdownOpen = true;
-    this._appendToBody();
+    // this._appendToBody();
     document.addEventListener("click", this.outsideClick, true);
     document.addEventListener("keydown", this.outsideKey, true);
+    setTimeout(() => this.listboxMenu.nativeElement.focus(), 0);
   }
 
   closeDropdown(): void {
     this.dropdownOpen = false;
-    this._appendToDropdown();
+    this.dropdownButton.nativeElement.focus();
+    // this._appendToDropdown();
     document.removeEventListener("click", this.outsideClick, true);
     document.removeEventListener("keydown", this.outsideKey, true);
   }
