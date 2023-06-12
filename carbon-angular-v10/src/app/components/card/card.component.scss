@@ -6,6 +6,14 @@
   background-color: $ui-01;
 }
 
+.dashboard-card--condense-border {
+  padding: $spacing-03;
+}
+
+.dashboard-card--narrow-border {
+  padding: $spacing-04;
+}
+
 // Header
 
 .dashboard-card__header {

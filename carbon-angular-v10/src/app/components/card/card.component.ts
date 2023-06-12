@@ -1,6 +1,6 @@
 import { Component, HostBinding, Input, OnInit } from '@angular/core';
 
-import { CardAccent, CardAspectRatio } from './card.types';
+import { CardAccent, CardAspectRatio, CardBorder } from './card.types';
 
 @Component({
   selector: 'app-card',
@@ -10,6 +10,7 @@ import { CardAccent, CardAspectRatio } from './card.types';
 export class CardComponent implements OnInit {
 
   @Input() accent?: CardAccent;
+  @Input() border?: CardBorder;
   @Input() aspectRatio?: CardAspectRatio;
   @Input() theme?: 'light' | 'dark';
 
@@ -43,6 +44,14 @@ export class CardComponent implements OnInit {
       }
       if (Object.keys(this.accent).length === 3) {
         this.classes.push(`dashboard-card--accent-${border}-${size}-${color}`);
+      }
+    }
+    if (this.border) {
+      if (this.border === 'condense') {
+        this.classes.push('dashboard-card--condense-border');
+      }
+      if (this.border === 'narrow') {
+        this.classes.push('dashboard-card--narrow-border');
       }
     }
     if (this.theme) {

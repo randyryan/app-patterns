@@ -10,4 +10,6 @@ type CardAspectRatio = {
   golden?: 'vertical' | 'horizontal';
 };
 
-export type { CardAccent, CardAspectRatio };
+type CardBorder = 'condense' | 'narrow' | 'normal';
+
+export type { CardAccent, CardAspectRatio, CardBorder };
