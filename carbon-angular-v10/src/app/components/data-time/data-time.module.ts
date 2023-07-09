@@ -1,6 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonModule, DropdownModule, LoadingModule } from 'carbon-components-angular';
+import {
+  ButtonModule,
+  DatePickerModule,
+  DropdownModule,
+  LoadingModule
+} from 'carbon-components-angular';
 import {
   ChevronDownModule,
   PauseModule,
@@ -21,6 +26,7 @@ import { DataTimeSelectComponent } from './data-time-select/data-time-select.com
   imports: [
     CommonModule,
     ButtonModule,
+    DatePickerModule,
     DropdownModule,
     LoadingModule,
     ChevronDownModule,

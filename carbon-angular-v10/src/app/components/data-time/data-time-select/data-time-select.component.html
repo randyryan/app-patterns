@@ -51,9 +51,9 @@
         </span>
       </button>
       <div #dropdownMenu>
-        <ul tabindex="-1" #listboxMenu class="bx--list-box__menu" *ngIf="dropdownOpen">
-          <li><button ibmButton="primary">5 m</button></li>
-        </ul>
+        <div tabindex="-1" #listboxMenu class="bx--list-box__menu" *ngIf="dropdownOpen">
+          <ibm-date-picker></ibm-date-picker>
+        </div>
       </div>
     </div>
     <div class="bx--list-box bx--list-box--action" [ngClass]="{
@@ -105,4 +105,8 @@
 
 <ng-template #display>
   <span class="bx--list-box__label">Last 2 hours</span>
+</ng-template>
+
+<ng-template #dropdown>
+
 </ng-template>
