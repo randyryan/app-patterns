@@ -6,5 +6,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'carbon-angular-v11';
+
+  sidenavExpanded = false; // Sidenav collapsed by default
+
+  constructor() {
+  }
+
+  toggleSidenav(expanded: boolean): void {
+    this.sidenavExpanded = expanded;
+  }
+
 }

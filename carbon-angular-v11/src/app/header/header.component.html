@@ -1,0 +1,11 @@
+<ibm-header name="Carbon Angular V11" brand="App-patterns" [route]="['/']">
+  <ibm-hamburger [active]="hamburgerActivated" (selected)="toggleHamburger($event)"></ibm-hamburger>
+  <!-- <ibm-header-navigation ariaLabel="Carbon Angular (V11)">
+    <ibm-header-item [route]="['/repos']">Repos</ibm-header-item>
+  </ibm-header-navigation> -->
+  <ibm-header-global>
+    <ibm-header-action title="action">
+      <svg cdsIcon="notification" size="20"></svg>
+    </ibm-header-action>
+  </ibm-header-global>
+</ibm-header>
