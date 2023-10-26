@@ -1,8 +1,8 @@
 <ibm-header name="Carbon Angular V11" brand="app-patterns" [route]="['/']">
-  <ibm-hamburger [active]="hamburgerActivated" (selected)="toggleHamburger($event)"></ibm-hamburger>
-  <ibm-header-navigation ariaLabel="Carbon Angular (V11)">
+  <cds-hamburger [active]="hamburgerActivated" (selected)="toggleHamburger($event)"></cds-hamburger>
+  <!-- <ibm-header-navigation ariaLabel="Carbon Angular (V11)">
     <ibm-header-item [route]="['/repos']">Repos</ibm-header-item>
-  </ibm-header-navigation>
+  </ibm-header-navigation> -->
   <ibm-header-global>
     <!-- 
       We use the ibmIcon directive with the name of the icon & size. IconService will do the rest!

@@ -1,19 +1,21 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { IconModule, IconService, UIShellModule } from 'carbon-components-angular';
-import { HeaderComponent } from './header/header.component';
-
 import Notification20 from "@carbon/icons/es/notification/20";
 import UserAvatar20 from "@carbon/icons/es/user--avatar/20";
 import Apps20 from "@carbon/icons/es/apps/20";
+import Home20 from "@carbon/icons/es/home/20";
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { HeaderComponent } from './header/header.component';
+import { SidenavComponent } from './sidenav/sidenav.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    SidenavComponent
   ],
   imports: [
     BrowserModule,
@@ -38,6 +40,6 @@ export class AppModule {
     /**
      * Register the icons!
      */
-    iconService.registerAll([Notification20, UserAvatar20, Apps20]);
+    iconService.registerAll([Notification20, UserAvatar20, Apps20, Home20]);
   }
 }

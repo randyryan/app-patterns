@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
 import { IconService } from 'carbon-components-angular';
 
 @Component({
@@ -7,6 +7,8 @@ import { IconService } from 'carbon-components-angular';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
+
+  @HostBinding('class.cds--header') headerClass = true;
 
   @Input()
   hamburgerActivated!: boolean;
