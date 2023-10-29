@@ -1,9 +1,6 @@
-<ibm-header name="Carbon Angular V11" brand="app-patterns" [route]="['/']">
+<cds-header name="Carbon Angular V11" brand="app-patterns" [route]="['/']">
   <cds-hamburger [active]="hamburgerActivated" (selected)="toggleHamburger($event)"></cds-hamburger>
-  <!-- <ibm-header-navigation ariaLabel="Carbon Angular (V11)">
-    <ibm-header-item [route]="['/repos']">Repos</ibm-header-item>
-  </ibm-header-navigation> -->
-  <ibm-header-global>
+  <cds-header-global>
     <!-- 
       We use the ibmIcon directive with the name of the icon & size. IconService will do the rest!
       Icons MUST be registered.
@@ -16,14 +13,14 @@
           https://www.npmjs.com/package/@carbon/icons the library that we use right now
           https://carbon-elements.netlify.app/icons/examples/preview/ the icon library
     -->
-    <ibm-header-action title="notification">
+    <cds-header-action title="notification">
       <svg ibmIcon="notification" size="20"></svg>
-    </ibm-header-action>
-    <ibm-header-action title="action">
+    </cds-header-action>
+    <cds-header-action title="action">
       <svg cdsIcon="user--avatar" size="20"></svg>
-    </ibm-header-action>
-    <ibm-header-action title="action">
+    </cds-header-action>
+    <cds-header-action title="action">
       <svg cdsIcon="apps" size="20"></svg>
-    </ibm-header-action>
-  </ibm-header-global>
-</ibm-header>
+    </cds-header-action>
+  </cds-header-global>
+</cds-header>

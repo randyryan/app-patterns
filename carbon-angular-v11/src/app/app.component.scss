@@ -1,3 +1,15 @@
-cds-sidenav.cds--side-nav__navigation {
-  border-right: 1px solid #e0e0e0; // Copied from carbondesignsystem.com
+// For resolving .#{$prefix}
+@use '@carbon/styles/scss/config' as *;
+// For resolving mini-units()
+@use '@carbon/styles/scss/components/ui-shell/functions' as *;
+
+// The rail hover style is missing from Carbon V11, copying from V10:
+.#{$prefix}--side-nav.#{$prefix}--side-nav--rail:not(.#{$prefix}--side-nav--fixed):hover,
+.#{$prefix}--side-nav--expanded {
+  width: mini-units(32);
+}
+
+// Copied from carbondesignsystem.com to give the side nav a more visible border
+.#{$prefix}--side-nav__navigation {
+  border-right: 1px solid #e0e0e0;
 }
