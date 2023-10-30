@@ -1,7 +1,11 @@
+@use '@carbon/styles';
+
 // For resolving .#{$prefix}
 @use '@carbon/styles/scss/config' as *;
 // For resolving mini-units()
 @use '@carbon/styles/scss/components/ui-shell/functions' as *;
+// For resolveing $layer-01
+@use '@carbon/themes/scss/generated/tokens' as *;
 
 // The rail hover style is missing from Carbon V11, copying from V10:
 .#{$prefix}--side-nav.#{$prefix}--side-nav--rail:not(.#{$prefix}--side-nav--fixed):hover,
@@ -12,4 +16,32 @@
 // Copied from carbondesignsystem.com to give the side nav a more visible border
 .#{$prefix}--side-nav__navigation {
   border-right: 1px solid #e0e0e0;
+}
+
+// Main
+
+@mixin main-background() {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background: $layer-01;
+    height: calc(100vh - 3rem);
+  }
+}
+
+.cds--content--nostalgic {
+  padding: 0;
+  @include main-background();
+}
+
+.cds--content--nostalgic::ng-deep .cds--grid--nostalgic {
+  padding-left: 2rem;
+  padding-right: 2rem;
 }

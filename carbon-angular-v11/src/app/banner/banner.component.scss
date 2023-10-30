@@ -1,0 +1,28 @@
+// For resolveing $layer-01
+@use '@carbon/themes/scss/generated/tokens' as *;
+// @use '@carbon/styles/scss/type' as *;
+
+@mixin banner-background() {
+  background-color: $layer-01;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: $layer-01;
+    z-index: -1;
+  }
+}
+
+.shell-banner {
+  padding: 2rem;
+  @include banner-background();
+}
+
+// .shell-banner__heading {
+//   @include type-style('productive-heading-04');
+// }

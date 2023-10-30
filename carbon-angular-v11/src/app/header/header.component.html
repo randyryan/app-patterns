@@ -1,5 +1,8 @@
 <cds-header name="Carbon Angular V11" brand="app-patterns" [route]="['/']">
   <cds-hamburger [active]="hamburgerActivated" (selected)="toggleHamburger($event)"></cds-hamburger>
+  <cds-header-navigation>
+    <cds-header-item [route]="['/home']">Home</cds-header-item>
+  </cds-header-navigation>
   <cds-header-global>
     <!-- 
       We use the ibmIcon directive with the name of the icon & size. IconService will do the rest!

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { IconModule, IconService, UIShellModule } from 'carbon-components-angular';
+import { BreadcrumbModule, GridModule, IconModule, IconService, UIShellModule } from 'carbon-components-angular';
 import Notification20 from "@carbon/icons/es/notification/20";
 import UserAvatar20 from "@carbon/icons/es/user--avatar/20";
 import Apps20 from "@carbon/icons/es/apps/20";
@@ -10,18 +10,22 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
+import { BannerComponent } from './banner/banner.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    SidenavComponent
+    SidenavComponent,
+    BannerComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     IconModule,
-    UIShellModule
+    UIShellModule,
+    GridModule,
+    BreadcrumbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

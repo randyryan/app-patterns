@@ -20,6 +20,7 @@
     "@angular/router": "^16.2.0",
     "@carbon/icons": "^11.28.0",
     "@carbon/styles": "^1.40.0",
+    "@carbon/themes": "^11.26.1",
     "carbon-components": "^11.40.0",
     "carbon-components-angular": "^5.15.0",
     "rxjs": "~7.8.0",
