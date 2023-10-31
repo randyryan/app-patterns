@@ -13,7 +13,7 @@
 // The rail hover style is missing from Carbon V11, copying from V10:
 .#{$prefix}--side-nav.#{$prefix}--side-nav--rail:not(.#{$prefix}--side-nav--fixed):hover,
 .#{$prefix}--side-nav--expanded {
-  width: mini-units(32);
+  inline-size: mini-units(32);
 }
 
 // Main
@@ -37,10 +37,4 @@
 .cds--content--nostalgic {
   padding: 0;
   @include main-background();
-}
-
-.cds--content--nostalgic::ng-deep .cds--grid--nostalgic {
-  padding-top: 1.5rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
 }

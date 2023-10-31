@@ -7,9 +7,11 @@ import { Component, HostBinding, Input } from '@angular/core';
 })
 export class SidenavComponent {
 
-  @HostBinding('class.cds--side-nav') cdsSidenav = true;
+  @HostBinding('class.cds--side-nav')
+  cdsSidenav: boolean = true;
 
+  @HostBinding('class.cds--side-nav--expanded')
   @Input()
-  expanded!: boolean;
+  expanded: boolean = false;
 
 }

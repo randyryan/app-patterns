@@ -1,1 +1,10 @@
 @use "@carbon/styles";
+
+// Carbon overrides
+
+.cds--content--nostalgic .cds--grid--nostalgic {
+  // padding: 0 mini-units(4) 0 mini-units(4);
+  padding: 0 2rem 0 2rem;
+  // margin-top: mini-units(4);
+  margin-top: 2rem;
+}

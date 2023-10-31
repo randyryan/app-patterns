@@ -1,9 +1,9 @@
+// For resolving mini-units()
+@use '@carbon/styles/scss/components/ui-shell/functions' as *;
 // For resolveing $layer-01
 @use '@carbon/themes/scss/generated/tokens' as *;
-// @use '@carbon/styles/scss/type' as *;
 
 @mixin banner-background() {
-  background-color: $layer-01;
   position: relative;
 
   &::before {
@@ -19,10 +19,8 @@
 }
 
 .shell-banner {
-  padding: 2rem;
+  padding: mini-units(4) mini-units(4) 0 mini-units(4);
+  margin-bottom: mini-units(6);
+
   @include banner-background();
 }
-
-// .shell-banner__heading {
-//   @include type-style('productive-heading-04');
-// }
