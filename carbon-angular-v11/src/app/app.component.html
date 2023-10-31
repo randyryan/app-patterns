@@ -1,15 +1,8 @@
-<app-header 
+<app-shell-header
   [hamburgerActivated]="sidenavExpanded"
-  (hamburgerSelected)="toggleSidenav($event)"></app-header>
+  (hamburgerSelected)="toggleSidenav($event)"></app-shell-header>
 
-<!-- <app-sidenav [expanded]="sidenavExpanded"></app-sidenav> -->
-<!-- Let the "ibm-sidenav" and "main" be siblings to leverage Carbon's style for handling sidenav expand/collapse -->
-<cds-sidenav [rail]="true" [expanded]="sidenavExpanded">
-  <cds-sidenav-item [route]="['/']">
-    <svg cdsIcon="home" size="20"></svg>
-    Home
-  </cds-sidenav-item>
-</cds-sidenav>
+<app-shell-sidenav [expanded]="sidenavExpanded"></app-shell-sidenav>
 
 <main class="cds--content cds--content--nostalgic">
   <router-outlet name="banner"></router-outlet>

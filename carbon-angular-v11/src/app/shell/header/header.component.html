@@ -1,7 +1,8 @@
-<cds-header name="Carbon Angular V11" brand="app-patterns" [route]="['/']">
+<cds-header brand="app-patterns" name="Carbon Angular V11" class="shell-header" [route]="['/']">
   <cds-hamburger [active]="hamburgerActivated" (selected)="toggleHamburger($event)"></cds-hamburger>
   <cds-header-navigation>
     <cds-header-item [route]="['/home']">Home</cds-header-item>
+    <cds-header-item [route]="['/repos']">Repos</cds-header-item>
   </cds-header-navigation>
   <cds-header-global>
     <!-- 
