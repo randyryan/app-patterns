@@ -1,10 +1,21 @@
 @use "@carbon/styles";
 
-// Carbon overrides
+// Carbon Nostalgia
+
+.cds--content--nostalgic {
+  padding: 0;
+}
 
 .cds--content--nostalgic .cds--grid--nostalgic {
-  // padding: 0 mini-units(4) 0 mini-units(4);
-  padding: 0 2rem 0 2rem;
+  // padding: mini-units(4) mini-units(4) 0;
+  padding: 2rem 2rem 0;
   // margin-top: mini-units(4);
   margin-top: 2rem;
+}
+
+.cds--content--nostalgic .cds--grid--nostalgic .cds--breadcrumb {
+  // Assure the breadcrumb take only 1rem of height, overriding the 18px from Carbon (seems like
+  // they are only focused on setting the global line-height to 18px but overlooked this part).
+  // height: mini-units(2);
+  height: 1rem;
 }

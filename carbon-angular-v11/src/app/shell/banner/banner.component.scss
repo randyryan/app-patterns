@@ -18,9 +18,21 @@
   }
 }
 
-.shell-banner {
-  padding: mini-units(4) mini-units(4) 0 mini-units(4);
-  margin-bottom: mini-units(6);
+// This rule doesn't take effect because of component encapsulation, it is put in the styles.scss
+// to do so.
+// We duplicate this rule here to help understanding the styles of the banner component.
+.cds--grid--nostalgic .cds--breadcrumb {
+  // Assure the breadcrumb take only 1rem of height, overriding the 18px from Carbon (seems like
+  // they are only focused on setting the global line-height to 18px but overlooked this part).
+  // height: mini-units(2);
+  height: 1rem;
+}
+
+.cds--grid--nostalgic.shell-banner {
+  // Unlike the usual .cds--grid-nostalgic (which has 2rem of padding-top), .shell-banner has a
+  // breadcrumb that takes up 1rem of height, therefore the padding-top should reduce to 1rem.
+  padding: mini-units(2) mini-units(4) 0;
+  margin: mini-units(6) 0;
 
   @include banner-background();
 }
