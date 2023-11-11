@@ -1,5 +1,23 @@
 @use "@carbon/styles";
 
+// Carbon Themes
+
+.cds--theme--white {
+	@include styles.theme(styles.$white);
+}
+
+.cds--theme--g10 {
+	@include styles.theme(styles.$g10);
+}
+
+.cds--theme--g90 {
+	@include styles.theme(styles.$g90);
+}
+
+.cds--theme--g100 {
+	@include styles.theme(styles.$g100);
+}
+
 // Carbon Nostalgia
 
 .cds--content--nostalgic {

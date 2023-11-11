@@ -2,7 +2,8 @@
 @use '@carbon/styles/scss/components/ui-shell/functions' as *;
 
 cds-sidenav::ng-deep > nav.cds--side-nav__items {
-  border-right: 1px solid #e0e0e0; // Copied from carbondesignsystem.com
+  // Copied and modified from .cds--header
+  border-right: 1px solid var(--cds-border-subtle);
 }
 
 // The because of Shadow DOM, the structure of how we've placed cds--header and cds-sidenav (each
