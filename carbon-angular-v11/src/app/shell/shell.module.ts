@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BreadcrumbModule, GridModule, IconModule, IconService, UIShellModule } from 'carbon-components-angular';
+import { BreadcrumbModule, GridModule, IconModule, IconService, RadioModule, UIShellModule } from 'carbon-components-angular';
 import Apps20 from "@carbon/icons/es/apps/20";
 import Code20 from "@carbon/icons/es/code/20";
 import Home20 from "@carbon/icons/es/home/20";
@@ -23,6 +23,7 @@ import { SidenavComponent } from './sidenav/sidenav.component';
     BreadcrumbModule,
     GridModule,
     IconModule,
+    RadioModule,
     UIShellModule
   ],
   exports: [

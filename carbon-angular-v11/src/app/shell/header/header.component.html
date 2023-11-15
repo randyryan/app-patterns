@@ -3,6 +3,15 @@
   <cds-header-navigation>
     <cds-header-item [route]="['/home']">Home</cds-header-item>
     <cds-header-item [route]="['/code']">Code</cds-header-item>
+    <cds-header-menu title="Theme">
+      <ng-container *ngFor="let theme of themes">
+        <cds-header-item>
+          <cds-radio [value]="theme.theme" [checked]="theme.active" (onClick)="click($event)">
+            {{ theme.name }}
+          </cds-radio>
+        </cds-header-item>
+      </ng-container>
+    </cds-header-menu>
   </cds-header-navigation>
   <cds-header-global>
     <!-- 
@@ -18,7 +27,7 @@
           https://carbon-elements.netlify.app/icons/examples/preview/ the icon library
     -->
     <cds-header-action title="notification">
-      <svg ibmIcon="notification" size="20"></svg>
+      <svg cdsIcon="notification" size="20"></svg>
     </cds-header-action>
     <cds-header-action title="action">
       <svg cdsIcon="user--avatar" size="20"></svg>
