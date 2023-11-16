@@ -3,7 +3,7 @@ import { Component, HostBinding, Input, OnInit } from '@angular/core';
 import { CardAccent, CardAspectRatio, CardBorder } from './card.types';
 
 @Component({
-  selector: 'app-card',
+  selector: 'ccc-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],
 })
@@ -26,9 +26,9 @@ export class CardComponent implements OnInit {
     if (this.aspectRatio) {
       const { width, height, golden } = this.aspectRatio;
       if (golden) {
-        return `dashboard-card--aspect-ratio-golden-${golden}`;
+        return `ccc-card--aspect-ratio-golden-${golden}`;
       }
-      return `dashboard-card--aspect-ratio-${width}x${height}`;
+      return `ccc-card--aspect-ratio-${width}x${height}`;
     } else {
       return '';
     }
@@ -40,22 +40,22 @@ export class CardComponent implements OnInit {
     if (this.accent) {
       const { border, size, color } = this.accent;
       if (Object.keys(this.accent).length === 2) {
-        this.classes.push(`dashboard-card--accent-${border}-${size}`);
+        this.classes.push(`ccc-card--accent-${border}-${size}`);
       }
       if (Object.keys(this.accent).length === 3) {
-        this.classes.push(`dashboard-card--accent-${border}-${size}-${color}`);
+        this.classes.push(`ccc-card--accent-${border}-${size}-${color}`);
       }
     }
     if (this.border) {
       if (this.border === 'condense') {
-        this.classes.push('dashboard-card--condense-border');
+        this.classes.push('ccc-card--condense-border');
       }
       if (this.border === 'narrow') {
-        this.classes.push('dashboard-card--narrow-border');
+        this.classes.push('ccc-card--narrow-border');
       }
     }
     if (this.theme) {
-      this.classes.push(`dashboard-card--theme-${this.theme}`);
+      this.classes.push(`ccc-card--theme-${this.theme}`);
     }
   }
 }

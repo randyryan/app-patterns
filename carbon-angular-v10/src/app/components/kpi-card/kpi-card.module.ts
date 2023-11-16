@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { GridModule } from 'carbon-components-angular';
 import { FireModule } from '@carbon/icons-angular';
-import { CardModule } from '../card/card.module';
+import { CardModule } from 'carbon-components-custom';
+
 import { KpiCardComponent } from './kpi-card.component';
 
 @NgModule({

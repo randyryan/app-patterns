@@ -1,35 +1,35 @@
 @import '~carbon-components/scss/globals/scss/vars';
 @import '~carbon-components/scss/globals/scss/typography';
 
-.dashboard-card {
+.ccc-card {
   padding: $spacing-05;
   background-color: $ui-01;
 }
 
-.dashboard-card--condense-border {
+.ccc-card--condense-border {
   padding: $spacing-03;
 }
 
-.dashboard-card--narrow-border {
+.ccc-card--narrow-border {
   padding: $spacing-04;
 }
 
 // Header
 
-.dashboard-card__header {
+.ccc-card__header {
   margin-bottom: $spacing-05;
 }
 
-.dashboard-card__header > .bx--col-lg-16 {
+.ccc-card__header > .bx--col-lg-16 {
   display: flex;
   justify-content: space-between;
 }
 
-.dashboard-card__header .dashboard-card__heading {
+.ccc-card__header .ccc-card__heading {
   @include carbon--type-style('heading-01');
 }
 
-.dashboard-card__header::ng-deep ibm-tag {
+.ccc-card__header::ng-deep ibm-tag {
   margin-top: -$spacing-01;
   margin-right: -$spacing-01;
   height: $spacing-05;
@@ -38,11 +38,11 @@
 // Accent
 
 // The borders of the card allowed to get accentuated
-$dashboard-card--accent-borders: top, left, bottom;
+$ccc-card--accent-borders: top, left, bottom;
 
 // The sizes of the accentuation. Levels are inspired by Carbon's grid breakpoints in
 // ('~carbon-components/scss/globals/scss/vendor/@carbon/layout/scss/breakpoint')
-$dashboard-card--accent-sizes: (
+$ccc-card--accent-sizes: (
   sm: (
     accent: $spacing-01,
   ),
@@ -62,7 +62,7 @@ $dashboard-card--accent-sizes: (
 
 // The colors of the accentuation. Colors are inspired by Carbon's Tag's background colors in
 // ('~carbon-components/scss/components/tag/tokens')
-$dashboard-card--accent-colors: (
+$ccc-card--accent-colors: (
   red: $carbon__red-60,
   magenta: $carbon__magenta-60,
   purple: $carbon__purple-60,
@@ -76,30 +76,30 @@ $dashboard-card--accent-colors: (
 );
 
 // Makes the classes that doesn't specify the color, using Blue 60 by default.
-@mixin dashboard-card--accent($border, $size) {
+@mixin ccc-card--accent($border, $size) {
   border-#{$border}: $size solid $carbon__blue-60;
 }
 
-@each $border in $dashboard-card--accent-borders {
-  @each $size in map-keys($dashboard-card--accent-sizes) {
-    $sizes: map-get($dashboard-card--accent-sizes, $size);
-    .dashboard-card--accent-#{$border}-#{$size} {
-      @include dashboard-card--accent($border, map-get($sizes, accent));
+@each $border in $ccc-card--accent-borders {
+  @each $size in map-keys($ccc-card--accent-sizes) {
+    $sizes: map-get($ccc-card--accent-sizes, $size);
+    .ccc-card--accent-#{$border}-#{$size} {
+      @include ccc-card--accent($border, map-get($sizes, accent));
     }
   }
 }
 
 // Makes the classes that uses one of the Tag's color
-@mixin dashboard-card--accent-color($border, $size, $color) {
+@mixin ccc-card--accent-color($border, $size, $color) {
   border-#{$border}: $size solid $color;
 }
 
-@each $border in $dashboard-card--accent-borders {
-  @each $size in map-keys($dashboard-card--accent-sizes) {
-    $sizes: map-get($dashboard-card--accent-sizes, $size);
-    @each $color in map-keys($dashboard-card--accent-colors) {
-      .dashboard-card--accent-#{$border}-#{$size}-#{'' + $color} {
-        @include dashboard-card--accent-color($border, map-get($sizes, accent), map-get($dashboard-card--accent-colors, $color));
+@each $border in $ccc-card--accent-borders {
+  @each $size in map-keys($ccc-card--accent-sizes) {
+    $sizes: map-get($ccc-card--accent-sizes, $size);
+    @each $color in map-keys($ccc-card--accent-colors) {
+      .ccc-card--accent-#{$border}-#{$size}-#{'' + $color} {
+        @include ccc-card--accent-color($border, map-get($sizes, accent), map-get($ccc-card--accent-colors, $color));
       }
     }
   }
@@ -107,7 +107,7 @@ $dashboard-card--accent-colors: (
 
 // Theme
 
-.dashboard-card--theme-light {
+.ccc-card--theme-light {
   background-color: $ui-02;
 }
 
@@ -121,7 +121,7 @@ $dashboard-card--accent-colors: (
 
 // https://carbondesignsystem.com/guidelines/2x-grid/overview/#aspect-ratio
 // 1:1, 2:1, 2:3, 3:2, 4:3, 16:9
-$dashboard-card--aspect-ratios: (
+$ccc-card--aspect-ratios: (
   '1x1': (1, 1),
   '2x1': (2, 1),
   '1x2': (1, 2),
@@ -135,22 +135,22 @@ $dashboard-card--aspect-ratios: (
   'golden-vertical': (1, 1.618),
 );
 
-:host[class*='dashboard-card--aspect-ratio'] {
+:host[class*='ccc-card--aspect-ratio'] {
   position: relative;
 }
 
-@each $aspect-ratio in map-keys($dashboard-card--aspect-ratios){
-  $width: nth(map-get($dashboard-card--aspect-ratios, $aspect-ratio), 1);
-  $height: nth(map-get($dashboard-card--aspect-ratios, $aspect-ratio), 2);
+@each $aspect-ratio in map-keys($ccc-card--aspect-ratios){
+  $width: nth(map-get($ccc-card--aspect-ratios, $aspect-ratio), 1);
+  $height: nth(map-get($ccc-card--aspect-ratios, $aspect-ratio), 2);
 
-  :host.dashboard-card--aspect-ratio-#{$aspect-ratio}:before {
+  :host.ccc-card--aspect-ratio-#{$aspect-ratio}:before {
     content: '';
     display: block;
     padding-top: percentage(($height / $width));
   }
 }
 
-:host[class*='dashboard-card--aspect-ratio'] .dashboard-card {
+:host[class*='ccc-card--aspect-ratio'] .ccc-card {
   position: absolute;
   top: 0;
   left: 0;
