@@ -8,6 +8,7 @@ import { ComponentsRoutingModule } from './components-routing.module';
 import { ComponentsComponent } from './components.component';
 import { CardModule } from 'src/app/components/card/card.module';
 import { KpiCardModule } from 'src/app/components/kpi-card/kpi-card.module';
+import { CarbonComponentsCustomModule } from 'carbon-components-custom';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { KpiCardModule } from 'src/app/components/kpi-card/kpi-card.module';
     ComponentsRoutingModule,
     CardModule,
     FireModule,
-    KpiCardModule
+    KpiCardModule,
+    CarbonComponentsCustomModule
   ]
 })
 export class ComponentsModule { }
