@@ -3,8 +3,10 @@ import { CommonModule } from '@angular/common';
 import { BreadcrumbModule, GridModule, IconModule, IconService, RadioModule, UIShellModule } from 'carbon-components-angular';
 import Apps20 from "@carbon/icons/es/apps/20";
 import Code20 from "@carbon/icons/es/code/20";
+import ColorPalette20 from '@carbon/icons/es/color-palette/20';
 import Home20 from "@carbon/icons/es/home/20";
 import Notification20 from "@carbon/icons/es/notification/20";
+import Settings20 from "@carbon/icons/es/settings/20";
 import UserAvatar20 from "@carbon/icons/es/user--avatar/20";
 
 import { HeaderComponent } from './header/header.component';
@@ -49,6 +51,6 @@ export class ShellModule {
     /**
      * Register the icons!
      */
-    iconService.registerAll([Apps20, Code20, Home20, Notification20, UserAvatar20]);
+    iconService.registerAll([Apps20, Code20, ColorPalette20, Home20, Notification20, Settings20, UserAvatar20]);
   }
 }

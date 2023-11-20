@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { THEMES, Theme, Themes } from './shell.type';
+import { THEMES, Theme, Themes } from './theme.type';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ShellService {
+export class ThemeService {
 
-  theme$ = new BehaviorSubject<Theme>('carbon--theme--white');
+  theme$ = new BehaviorSubject<Theme>('cds--theme--white');
   themes$ = new BehaviorSubject<Themes>(THEMES);
 
   public getTheme(): Observable<Theme> {

@@ -1,0 +1,13 @@
+<div cdsGrid class="cds--grid cds--grid--nostalgic theme">
+  <div cdsRow>
+    <div cdsCol [columnNumbers]="{ lg: '16' }">
+      <cds-radio-group legend="Theme:" (change)="onChange($event)">
+        <ng-container *ngFor="let theme of themes">
+          <cds-radio [value]="theme.theme" [checked]="theme.active">
+            {{ theme.name }}
+          </cds-radio>
+        </ng-container>
+      </cds-radio-group>
+    </div>
+  </div>
+</div>

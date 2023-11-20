@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, OnInit, Renderer2, inject } from '@angular/core';
 import { pairwise } from 'rxjs';
 
-import { ShellService } from './shell';
+import { ThemeService, Themes } from './theme';
 
 @Component({
   selector: 'app-root',
@@ -11,16 +11,21 @@ import { ShellService } from './shell';
 })
 export class AppComponent implements OnInit {
 
+  themes!: Themes;
+
   document = inject(DOCUMENT);
   renderer = inject(Renderer2);
 
   sidenavExpanded = false; // Sidenav collapsed by default
+  panelExpanded = false;
 
-  constructor(private shellService: ShellService) { }
+  constructor(private themeService: ThemeService) { }
 
   ngOnInit(): void {
-    this.shellService.setTheme('carbon--theme--white'); // To get the pairwise to work
-    this.shellService.getTheme()
+    this.themeService.getThemes().subscribe(themes => this.themes = themes);
+
+    this.themeService.setTheme('cds--theme--white'); // To get the pairwise to work
+    this.themeService.getTheme()
       .pipe(pairwise())
       .subscribe(([oldTheme, newTheme]) => {
         this.renderer.addClass(this.document.body, newTheme);
@@ -32,6 +37,10 @@ export class AppComponent implements OnInit {
 
   toggleSidenav(expanded: boolean): void {
     this.sidenavExpanded = expanded;
+  }
+
+  togglePanel(expanded: boolean): void {
+    this.panelExpanded = expanded;
   }
 
 }

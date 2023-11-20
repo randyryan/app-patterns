@@ -1,8 +1,19 @@
 <app-shell-header
   [hamburgerActivated]="sidenavExpanded"
-  (hamburgerSelected)="toggleSidenav($event)"></app-shell-header>
+  (hamburgerSelected)="toggleSidenav($event)"
+  [settingsActivated]="panelExpanded"
+  (settingsSelected)="togglePanel($event)">
+</app-shell-header>
 
 <app-shell-sidenav [expanded]="sidenavExpanded"></app-shell-sidenav>
+
+<cds-panel [expanded]="panelExpanded">
+  <cds-switcher-list>
+    <ng-container *ngFor="let theme of themes">
+      <cds-switcher-list-item [active]="theme.active">{{ theme.name }}</cds-switcher-list-item>
+    </ng-container>
+  </cds-switcher-list>
+</cds-panel>
 
 <main class="cds--content cds--content--nostalgic">
   <router-outlet name="banner"></router-outlet>
