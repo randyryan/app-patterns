@@ -6,8 +6,7 @@ import { FireModule } from '@carbon/icons-angular';
 
 import { ComponentsRoutingModule } from './components-routing.module';
 import { ComponentsComponent } from './components.component';
-import { KpiCardModule } from 'src/app/components/kpi-card/kpi-card.module';
-import { CarbonComponentsCustomModule, CardModule } from 'carbon-components-custom';
+import { CardModule, KpiCardModule } from 'carbon-components-custom';
 
 @NgModule({
   declarations: [
@@ -16,11 +15,10 @@ import { CarbonComponentsCustomModule, CardModule } from 'carbon-components-cust
   imports: [
     CommonModule,
     GridModule,
+    FireModule,
     ComponentsRoutingModule,
     CardModule,
-    FireModule,
-    KpiCardModule,
-    CarbonComponentsCustomModule
+    KpiCardModule
   ]
 })
 export class ComponentsModule { }

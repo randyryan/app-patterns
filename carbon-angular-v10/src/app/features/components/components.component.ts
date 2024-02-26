@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import Kpi from 'src/app/components/kpi-card/kpi-card.types';
+import Kpi from 'projects/carbon-components-custom/src/kpi-card/kpi-card.types';
 
 @Component({
   selector: 'app-components',
