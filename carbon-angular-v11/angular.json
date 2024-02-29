@@ -104,7 +104,7 @@
       "projectType": "library",
       "root": "projects/carbon-fiber",
       "sourceRoot": "projects/carbon-fiber/src",
-      "prefix": "lib",
+      "prefix": "cf",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
