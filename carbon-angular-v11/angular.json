@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "carbon-angular-v11:build:production"
+              "buildTarget": "carbon-angular-v11:build:production"
             },
             "development": {
-              "browserTarget": "carbon-angular-v11:build:development"
+              "buildTarget": "carbon-angular-v11:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "carbon-angular-v11:build"
+            "buildTarget": "carbon-angular-v11:build"
           }
         },
         "test": {
