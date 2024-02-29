@@ -99,6 +99,39 @@
           }
         }
       }
+    },
+    "carbon-fiber": {
+      "projectType": "library",
+      "root": "projects/carbon-fiber",
+      "sourceRoot": "projects/carbon-fiber/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/carbon-fiber/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/carbon-fiber/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/carbon-fiber/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/carbon-fiber/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
     }
   },
   "cli": {
