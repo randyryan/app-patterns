@@ -1,7 +1,8 @@
-import { ApplicationRef, Component, ElementRef, EventEmitter, Input, ViewChild } from '@angular/core';
+import { ApplicationRef, Component, ElementRef, EventEmitter, Input, Output, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
 import { AbstractDropdownView, I18n, ListItem } from 'carbon-components-angular';
 import { Observable, Subscription, debounceTime, filter, first, fromEvent, isObservable, map, of } from 'rxjs';
 import _ from 'lodash';
+import { ScrollCustomEvent } from 'carbon-components-angular/dropdown/list/scroll-custom-event.interface';
 
 @Component({
   selector: 'cf-dropdown-treelist',
@@ -17,6 +18,7 @@ export class DropdownTreelist implements AbstractDropdownView {
   static instanceCount = 0;
 
   @ViewChild("list", { static: true }) list!: ElementRef;
+  @ViewChildren("listItem") protected listElementList!: QueryList<ElementRef>;
 
   /**
    * @override
@@ -39,22 +41,21 @@ export class DropdownTreelist implements AbstractDropdownView {
     }
     this._originalItems = items;
   }
-
   /**
    * @override
    */
   get items(): ListItem[] | Observable<ListItem[]> {
     return this._originalItems;
   }
-
   /**
    * @override
    */
-  select: EventEmitter<ListItem[] | { item: ListItem, isUpdate?: boolean }> = new EventEmitter();
+  @Output() select: EventEmitter<ListItem[] | { item: ListItem, isUpdate?: boolean }> = new EventEmitter();
+  @Output() scroll: EventEmitter<ScrollCustomEvent> = new EventEmitter();
   /**
    * @override
    */
-  blurIntent: EventEmitter<'top' | 'bottom'> = new EventEmitter();
+  @Output() blurIntent: EventEmitter<'top' | 'bottom'> = new EventEmitter();
   /**
    * @override
    */
@@ -72,18 +73,21 @@ export class DropdownTreelist implements AbstractDropdownView {
   //
   //
   public displayItems: ListItem[] = [];
-
+  public highlightedItem = null;
   protected _originalItems!: ListItem[] | Observable<ListItem[]>;
-
   protected index = -1;
-
   protected _items?: ListItem[];
-
   protected _itemsSubscription?: Subscription; // _items
-
   protected _itemsReady?: Observable<boolean>; // _itemsReady
-
   protected focusJump?: Subscription;
+  @Input() itemTpl?: string | TemplateRef<any>;
+
+  //
+  //
+  //
+  //
+  @Input() ariaLabel = this.i18n.get().DROPDOWN_LIST.LABEL;
+  @Input() showTitles = true;
 
   constructor(public elementRef: ElementRef, protected i18n: I18n, protected applicationRef: ApplicationRef) { }
 
