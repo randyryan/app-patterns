@@ -1,7 +1,8 @@
-import { ApplicationRef, Component, ElementRef, EventEmitter, Input, Output, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
-import { AbstractDropdownView, I18n, ListItem } from 'carbon-components-angular';
-import { Observable, Subscription, debounceTime, filter, first, fromEvent, isObservable, map, of } from 'rxjs';
 import _ from 'lodash';
+import { Observable, Subscription, first, isObservable, of } from 'rxjs';
+import { AfterViewInit, ApplicationRef, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
+import { AbstractDropdownView, I18n, ListItem } from 'carbon-components-angular';
+import { watchFocusJump } from 'carbon-components-angular/dropdown/dropdowntools';
 import { ScrollCustomEvent } from 'carbon-components-angular/dropdown/list/scroll-custom-event.interface';
 
 @Component({
@@ -11,14 +12,14 @@ import { ScrollCustomEvent } from 'carbon-components-angular/dropdown/list/scrol
   templateUrl: './dropdown-treelist.component.html',
   styleUrl: './dropdown-treelist.component.scss'
 })
-export class DropdownTreelist implements AbstractDropdownView {
+export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, OnDestroy {
   /**
-   * Mimick Dropdown list's way to generate ID
+   * The Dropdown list's way to generate ID.
    */
   static instanceCount = 0;
 
   @ViewChild("list", { static: true }) list!: ElementRef;
-  @ViewChildren("listItem") protected listElementList!: QueryList<ElementRef>;
+  @ViewChildren("listItem") protected listItems!: QueryList<ElementRef>;
 
   /**
    * @override
@@ -41,29 +42,41 @@ export class DropdownTreelist implements AbstractDropdownView {
     }
     this._originalItems = items;
   }
+
   /**
    * @override
    */
   get items(): ListItem[] | Observable<ListItem[]> {
     return this._originalItems;
   }
+
   /**
+   * Emits selections occurred on the component.
+   *
    * @override
    */
   @Output() select: EventEmitter<ListItem[] | { item: ListItem, isUpdate?: boolean }> = new EventEmitter();
+
+  /**
+   * Emits scrollings occurred on the component.
+   */
   @Output() scroll: EventEmitter<ScrollCustomEvent> = new EventEmitter();
+
   /**
    * @override
    */
   @Output() blurIntent: EventEmitter<'top' | 'bottom'> = new EventEmitter();
+
   /**
    * @override
    */
   @Input() type: 'single' | 'multi' = 'single';
+
   /**
    * @override
    */
   public size: 'sm' | 'md' | 'lg' = 'md';
+
   /**
    * @override
    */
@@ -73,8 +86,11 @@ export class DropdownTreelist implements AbstractDropdownView {
   //
   //
   public displayItems: ListItem[] = [];
-  public highlightedItem = null;
+  public highlightedItem?: string;
   protected _originalItems!: ListItem[] | Observable<ListItem[]>;
+  /**
+   * The index of the selected item.
+   */
   protected index = -1;
   protected _items?: ListItem[];
   protected _itemsSubscription?: Subscription; // _items
@@ -82,23 +98,55 @@ export class DropdownTreelist implements AbstractDropdownView {
   protected focusJump?: Subscription;
   @Input() itemTpl?: string | TemplateRef<any>;
 
-  //
-  //
-  //
-  //
   @Input() ariaLabel = this.i18n.get().DROPDOWN_LIST.LABEL;
+  /**
+   * Whether showing the title arribute or not.
+   */
   @Input() showTitles = true;
 
   constructor(public elementRef: ElementRef, protected i18n: I18n, protected applicationRef: ApplicationRef) { }
 
+  ngAfterViewInit(): void {
+    this.index = this.getListItems().findIndex(item => item.selected);
+    this.setupFocusObservable();
+    setTimeout(() => this.emitSelect(true));
+  }
+
+  ngOnDestroy(): void {
+    if (this.focusJump) {
+      this.focusJump.unsubscribe();
+    }
+    if (this._itemsSubscription) {
+      this._itemsSubscription.unsubscribe();
+    }
+  }
+
+  /**
+   * Internally invoked function.
+   */
+  getItemId(itemIndex: number): string {
+    return `${this.listId}-${itemIndex}}`;
+  }
+
+  /**
+   * Internally invoked function by items setter.
+   */
   updateItems(items: ListItem[]): void {
     this._items = items.map(item => _.cloneDeep(item));
     this.displayItems = this._items;
     this.updateIndex();
     this.setupFocusObservable();
-    this.doEmitSelect();
+    this.emitSelect();
   }
 
+  /**
+   * Internally invoked function.
+   * The timing the function is invoked:
+   *     (1) setting items (updateItems)
+   *     (2) filtering items (filterBy)
+   *     (3) initFocus
+   *     (4) reorderSelected
+   */
   updateIndex(): void {
     const selected = this.getSelected();
     if (selected.length) {
@@ -117,10 +165,17 @@ export class DropdownTreelist implements AbstractDropdownView {
       this.focusJump.unsubscribe();
     }
     let elList = Array.from(this.list.nativeElement.querySelectorAll("li"));
-    this.focusJump = this.watchFocusJump(this.list.nativeElement, elList).subscribe(el => el.focus());
+    this.focusJump = watchFocusJump(this.list.nativeElement, elList).subscribe(el => el.focus());
   }
 
-  doEmitSelect(isUpdate = true) {
+  /**
+   * Internally invoked function. Emits selection(s) determined by other internal states (_items).
+   * The timing the function is invoked:
+   *     (1) view init
+   *     (2) update items
+   *     (3) clicking on items
+   */
+  emitSelect(isUpdate = true) {
     if (this.type === 'single') {
       // Type-asserted
       this.select.emit({ item: this._items!.find(item => item.selected)!, isUpdate: isUpdate });
@@ -132,33 +187,26 @@ export class DropdownTreelist implements AbstractDropdownView {
     }
   }
 
-  // Extracted from dropdown/dropdowntools.ts since it's not exported
-  watchFocusJump(target: HTMLElement, elements: any[]): Observable<HTMLElement> {
-    return fromEvent(target, "keydown")
-      .pipe(
-        debounceTime(150),
-        map((event: Event) => {
-          let el = elements.find((itemEl: HTMLElement) =>
-            // Type-asserted
-            itemEl.textContent!.trim().toLowerCase().startsWith((event as KeyboardEvent).key));
-          if (el) { return el; }
-        }),
-        filter(el => !!el)
-      );
-  }
-
-
   /**
+   * Gets the next item of the selected item.
+   *
    * @override
    */
   getNextItem(): ListItem {
-    throw new Error('Method not implemented.');
+    if (this.index < this.displayItems.length - 1) {
+      this.index++;
+    }
+    return this.displayItems[this.index];
   }
+
   /**
+   * Whether the selected item has a next item.
+   *
    * @override
    */
   hasNextElement(): boolean {
-    throw new Error('Method not implemented.');
+    return this.index < this.displayItems.length - 1 &&
+      (!(this.index === this.displayItems.length - 2) || !this.displayItems[this.index + 1].disabled);
   }
   /**
    * @override
@@ -214,12 +262,23 @@ export class DropdownTreelist implements AbstractDropdownView {
   propagateSelected(value: ListItem[]): void {
     throw new Error('Method not implemented.');
   }
+
   /**
    * @override
    */
-  filterBy(value: string): void {
-    throw new Error('Method not implemented.');
+  filterBy(query: string = ''): void {
+    if (query) {
+      this.displayItems = this.getListItems().filter(i => i.content.toLowerCase().includes(query.toLocaleLowerCase()));
+      if (this.displayItems) {
+        this.index = 0;
+      }
+    } else {
+      this.displayItems = this.getListItems();
+    }
+
+    this.updateIndex();
   }
+
   /**
    * @override
    */

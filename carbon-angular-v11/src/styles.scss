@@ -1,4 +1,9 @@
 @use "@carbon/styles";
+@use '@carbon/grid';
+
+// Emit the flex-grid styles
+
+@include grid.flex-grid();
 
 // Carbon Themes
 
