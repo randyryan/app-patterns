@@ -1,14 +1,29 @@
 import _ from 'lodash';
-import { Observable, Subscription, first, isObservable, of } from 'rxjs';
+import { Observable, Subscription, debounceTime, filter, first, fromEvent, isObservable, map, of } from 'rxjs';
 import { AfterViewInit, ApplicationRef, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
-import { AbstractDropdownView, I18n, ListItem } from 'carbon-components-angular';
-import { watchFocusJump } from 'carbon-components-angular/dropdown/dropdowntools';
+import { AbstractDropdownView, I18n, I18nModule, ListItem } from 'carbon-components-angular';
+// import { watchFocusJump } from 'carbon-components-angular/dropdown/dropdowntools';
 import { ScrollCustomEvent } from 'carbon-components-angular/dropdown/list/scroll-custom-event.interface';
+
+function watchFocusJump(target: HTMLElement, elements: any): Observable<HTMLElement> {
+  return fromEvent(target, "keydown")
+    .pipe(
+      debounceTime(150),
+      map((ev: Event) => {
+        let el = elements.find((itemEl: any) =>
+          itemEl.textContent.trim().toLowerCase().startsWith((ev as KeyboardEvent).key));
+        if (el) { return el; }
+      }),
+      filter(el => !!el)
+    );
+}
 
 @Component({
   selector: 'cf-dropdown-treelist',
   standalone: true,
-  imports: [],
+  imports: [
+    I18nModule
+  ],
   templateUrl: './dropdown-treelist.component.html',
   styleUrl: './dropdown-treelist.component.scss'
 })
@@ -20,6 +35,29 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
 
   @ViewChild("list", { static: true }) list!: ElementRef;
   @ViewChildren("listItem") protected listItems!: QueryList<ElementRef>;
+
+  public displayItems: ListItem[] = [];
+  /**
+   * The ID of the highlighted item.
+   *               (focused) item
+   */
+  public highlightedItem?: string;
+  protected _originalItems!: ListItem[] | Observable<ListItem[]>;
+  /**
+   * The index of the selected item.
+   */
+  protected index = -1;
+  protected _items: ListItem[] = [];
+  protected _itemsSubscription?: Subscription; // _items
+  protected _itemsReady?: Observable<boolean>; // _itemsReady
+  protected focusJump?: Subscription;
+  @Input() itemTpl?: string | TemplateRef<any>;
+
+  @Input() ariaLabel = this.i18n.get().DROPDOWN_LIST.LABEL;
+  /**
+   * Whether showing the title arribute or not.
+   */
+  @Input() showTitles = true;
 
   /**
    * @override
@@ -83,26 +121,8 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
   listId = `listbox-${DropdownTreelist.instanceCount++}`;
 
   //
+  // Constructor and ng lifecycle hooks
   //
-  //
-  public displayItems: ListItem[] = [];
-  public highlightedItem?: string;
-  protected _originalItems!: ListItem[] | Observable<ListItem[]>;
-  /**
-   * The index of the selected item.
-   */
-  protected index = -1;
-  protected _items?: ListItem[];
-  protected _itemsSubscription?: Subscription; // _items
-  protected _itemsReady?: Observable<boolean>; // _itemsReady
-  protected focusJump?: Subscription;
-  @Input() itemTpl?: string | TemplateRef<any>;
-
-  @Input() ariaLabel = this.i18n.get().DROPDOWN_LIST.LABEL;
-  /**
-   * Whether showing the title arribute or not.
-   */
-  @Input() showTitles = true;
 
   constructor(public elementRef: ElementRef, protected i18n: I18n, protected applicationRef: ApplicationRef) { }
 
@@ -121,15 +141,19 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
     }
   }
 
+  //
+  // Internally invoked functions
+  //
+
   /**
-   * Internally invoked function.
+   * Utility method that returns item ID
    */
   getItemId(itemIndex: number): string {
     return `${this.listId}-${itemIndex}}`;
   }
 
   /**
-   * Internally invoked function by items setter.
+   * Utility method invoked by items setter.
    */
   updateItems(items: ListItem[]): void {
     this._items = items.map(item => _.cloneDeep(item));
@@ -140,32 +164,33 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
   }
 
   /**
-   * Internally invoked function.
-   * The timing the function is invoked:
+   * Maintains the index of the selected item, invoked by:
    *     (1) setting items (updateItems)
    *     (2) filtering items (filterBy)
    *     (3) initFocus
    *     (4) reorderSelected
    */
   updateIndex(): void {
-    const selected = this.getSelected();
-    if (selected.length) {
-      this.index = this.displayItems.indexOf(selected[0]);
-    } else if (this.hasNextElement()) {
-      this.getNextElement();
+    const selectedItems = this.getSelected();
+    if (selectedItems.length) {
+      this.index = this.displayItems.indexOf(selectedItems[0]);
+    // } else if (this.hasNextElement()) {
+    // else if is redundant because this.getNextElement() won't update index
+    // if there are no non-disabled items starting with next item
+    } else {
+      this.getNextElement(); // the index is updated there
     }
   }
 
   setupFocusObservable(): void {
-    if (!this.list) {
-      return;
+    if (this.list) {
+      if (this.focusJump) {
+        this.focusJump.unsubscribe();
+      }
+      const elListItems = Array.from(this.list.nativeElement.querySelectorAll('li'));
+      this.focusJump = watchFocusJump(this.list.nativeElement, elListItems)
+        .subscribe(el => el.focus());
     }
-
-    if (this.focusJump) {
-      this.focusJump.unsubscribe();
-    }
-    let elList = Array.from(this.list.nativeElement.querySelectorAll("li"));
-    this.focusJump = watchFocusJump(this.list.nativeElement, elList).subscribe(el => el.focus());
   }
 
   /**
@@ -187,8 +212,12 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
     }
   }
 
+  //
+  // AbstractDropdownView methods
+  //
+
   /**
-   * Gets the next item of the selected item.
+   * Gets the {@link ListItem} that is subsequent to the selected item.
    *
    * @override
    */
@@ -206,32 +235,62 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
    */
   hasNextElement(): boolean {
     return this.index < this.displayItems.length - 1 &&
-      (!(this.index === this.displayItems.length - 2) || !this.displayItems[this.index + 1].disabled);
+      (this.index !== this.displayItems.length - 2 || !this.displayItems[this.index + 1].disabled);
   }
+
   /**
+   * Gets the {@link HTMLElement} that is subsequent to the selected item.
+   *
    * @override
    */
   getNextElement(): HTMLElement {
-    throw new Error('Method not implemented.');
+    const elList = this.listItems ? this.listItems.toArray() : [];
+    if (elList.length) {
+      // Start with the next, look for the first non-disabled
+      // return if any is found and update the index to the found's been found
+      for (let i = this.index + 1; i < elList.length; i ++) {
+        if (!this.displayItems[i].disabled) {
+          return elList[this.index = i].nativeElement;
+        }
+      }
+    }
+
+    return null;
   }
+
   /**
    * @override
    */
   getPrevItem(): ListItem {
-    throw new Error('Method not implemented.');
+    if (this.index > 0) {
+      this.index--;
+    }
+    return this.displayItems[this.index];
   }
+
   /**
    * @override
    */
   hasPrevElement(): boolean {
-    throw new Error('Method not implemented.');
+    return this.index > 0 && (this.index !== 1 || !this.displayItems[0].disabled);
   }
+
   /**
    * @override
    */
   getPrevElement(): HTMLElement {
-    throw new Error('Method not implemented.');
+    const elList = this.listItems ? this.listItems.toArray() : [];
+    if (elList.length) {
+      for (let i = this.index - 1; i < this.index && i >= 0; i--) {
+        if (!this.displayItems[i].disabled) {
+          return elList[this.index = i].nativeElement;
+        }
+      }
+    }
+
+    return null;
   }
+
   /**
    * @override
    */
@@ -254,7 +313,7 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
    * @override
    */
   getListItems(): ListItem[] {
-    throw new Error('Method not implemented.');
+    return this._items;
   }
   /**
    * @override
