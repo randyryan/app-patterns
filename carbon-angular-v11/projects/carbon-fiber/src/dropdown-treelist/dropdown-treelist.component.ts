@@ -34,7 +34,7 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
   static instanceCount = 0;
 
   @ViewChild("list", { static: true }) list!: ElementRef;
-  @ViewChildren("listItem") protected listItems!: QueryList<ElementRef>;
+  @ViewChildren("listItem") protected listItems?: QueryList<ElementRef<HTMLElement>>;
 
   public displayItems: ListItem[] = [];
   /**
@@ -257,13 +257,12 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
    * @override
    */
   getNextElement(): HTMLElement {
-    const elList = this.listItems ? this.listItems.toArray() : [];
-    if (elList.length) {
-      // Start with the next, look for the first non-disabled
-      // return if any is found and update the index to the found's been found
-      for (let i = this.index + 1; i < elList.length; i ++) {
+    const listElements = this.listItems ? this.listItems.toArray() : [];
+    if (listElements.length) {
+      // Start with the next, set index and return the first enabled if found
+      for (let i = this.index + 1; i < listElements.length; i++) {
         if (!this.displayItems[i].disabled) {
-          return elList[this.index = i].nativeElement;
+          return listElements[this.index = i].nativeElement;
         }
       }
     }
@@ -301,11 +300,12 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
    * @override
    */
   getPrevElement(): HTMLElement {
-    const elList = this.listItems ? this.listItems.toArray() : [];
-    if (elList.length) {
+    const listElements = this.listItems ? this.listItems.toArray() : [];
+    if (listElements.length) {
+      // Start with the previous, set index and return the first enabled if found traversing backwards
       for (let i = this.index - 1; i < this.index && i >= 0; i--) {
         if (!this.displayItems[i].disabled) {
-          return elList[this.index = i].nativeElement;
+          return listElements[this.index = i].nativeElement;
         }
       }
     }
@@ -319,18 +319,27 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
   getSelected(): ListItem[] {
     return this._items.filter(i => i.selected);
   }
+
   /**
    * @override
    */
   getCurrentItem(): ListItem {
-    throw new Error('Method not implemented.');
+    if (this.index < 0) {
+      return this.displayItems[0];
+    }
+    return this.displayItems[this.index];
   }
+
   /**
    * @override
    */
   getCurrentElement(): HTMLElement {
-    throw new Error('Method not implemented.');
+    if (this.index < 0) {
+      return this.listItems.first.nativeElement;
+    }
+    return this.listItems.toArray()[this.index].nativeElement;
   }
+
   /**
    * @override
    */
