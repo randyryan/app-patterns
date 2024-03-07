@@ -47,6 +47,11 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
    * The index of the selected item.
    */
   protected index = -1;
+
+  get selectedIndex(): number {
+    return this.index;
+  }
+
   protected _items: ListItem[] = [];
   protected _itemsSubscription?: Subscription; // _items
   protected _itemsReady?: Observable<boolean>; // _itemsReady
@@ -234,8 +239,16 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
    * @override
    */
   hasNextElement(): boolean {
+    // The original logic:
+    //     is not last && (is not second last || next is not disabled)
+    // will fail for case:
+    //     [ current, disabled, disabled ] = false
+    // because it translates to:
+    //     true && (true || false) = true
+
+    // This logic will return true when there is any enabled item at any subsequent index position
     return this.index < this.displayItems.length - 1 &&
-      (this.index !== this.displayItems.length - 2 || !this.displayItems[this.index + 1].disabled);
+        this._items.slice(this.index + 1).some(item => !item.disabled);
   }
 
   /**
@@ -272,7 +285,16 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
    * @override
    */
   hasPrevElement(): boolean {
-    return this.index > 0 && (this.index !== 1 || !this.displayItems[0].disabled);
+    // The original logic:
+    //     is not first && (is not second || first is not disabled)
+    // will fail for case:
+    //     [ disabled, disabled, current ]
+    // because it translates to:
+    //     true && (true || false) = true
+
+    // This logic will return true when there is any enabled item at any preceding index position
+    return this.index > 0 &&
+        this._items.slice(0, this.index).some(item => !item.disabled);
   }
 
   /**
@@ -295,7 +317,7 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
    * @override
    */
   getSelected(): ListItem[] {
-    throw new Error('Method not implemented.');
+    return this._items.filter(i => i.selected);
   }
   /**
    * @override
