@@ -5,7 +5,7 @@ import { AbstractDropdownView, I18n, I18nModule, ListItem } from 'carbon-compone
 // import { watchFocusJump } from 'carbon-components-angular/dropdown/dropdowntools';
 import { ScrollCustomEvent } from 'carbon-components-angular/dropdown/list/scroll-custom-event.interface';
 
-function watchFocusJump(target: HTMLElement, elements: any): Observable<HTMLElement> {
+function watchFocusJump(target: HTMLElement, elements: any[]): Observable<HTMLElement> {
   return fromEvent(target, "keydown")
     .pipe(
       debounceTime(150),
@@ -192,7 +192,8 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
       if (this.focusJump) {
         this.focusJump.unsubscribe();
       }
-      const elListItems = Array.from(this.list.nativeElement.querySelectorAll('li'));
+      // Check on the possibility of using this.listItems
+      const elListItems = Array.from<HTMLElement>(this.list.nativeElement.querySelectorAll('li'));
       this.focusJump = watchFocusJump(this.list.nativeElement, elListItems)
         .subscribe(el => el.focus());
     }
@@ -220,11 +221,14 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
   //
   // AbstractDropdownView methods
   //
+  // Inconsistencies between getNextItem and getNextElement, getPrevItem and getPrevElement:
+  // get element checks enable states and skip the ones that are disabled whereas get item doesn't
+  //
 
   /**
    * Gets the {@link ListItem} that is subsequent to the selected item.
    *
-   * @override
+   * @override {@link AbstractDropdownView.getNextItem}
    */
   getNextItem(): ListItem {
     if (this.index < this.displayItems.length - 1) {
@@ -236,7 +240,7 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
   /**
    * Whether the selected item has a next item.
    *
-   * @override
+   * @override {@link AbstractDropdownView.hasNextElement}
    */
   hasNextElement(): boolean {
     // The original logic:
@@ -254,7 +258,7 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
   /**
    * Gets the {@link HTMLElement} that is subsequent to the selected item.
    *
-   * @override
+   * @override {@link AbstractDropdownView.getNextElement}
    */
   getNextElement(): HTMLElement {
     const listElements = this.listItems ? this.listItems.toArray() : [];
@@ -271,7 +275,9 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
   }
 
   /**
-   * @override
+   * Gets the {@link ListItem} that precedes the selected item.
+   *
+   * @override {@link AbstractDropdownView.getPrevItem}
    */
   getPrevItem(): ListItem {
     if (this.index > 0) {
@@ -281,7 +287,9 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
   }
 
   /**
-   * @override
+   * Wether the selected item has a preceding item.
+   *
+   * @override {@link AbstractDropdownView.getPrevElement}
    */
   hasPrevElement(): boolean {
     // The original logic:
@@ -297,7 +305,9 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
   }
 
   /**
-   * @override
+   * Gets the {@link HTMLElement} that precedes the selected item.
+   *
+   * @override {@link AbstractDropdownView.getPrevElement}
    */
   getPrevElement(): HTMLElement {
     const listElements = this.listItems ? this.listItems.toArray() : [];
@@ -314,14 +324,14 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
   }
 
   /**
-   * @override
+   * @override {@link AbstractDropdownView.getSelected}
    */
   getSelected(): ListItem[] {
     return this._items.filter(i => i.selected);
   }
 
   /**
-   * @override
+   * @override {@link AbstractDropdownView.getCurrentItem}
    */
   getCurrentItem(): ListItem {
     if (this.index < 0) {
@@ -331,30 +341,51 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
   }
 
   /**
-   * @override
+   * @override {@link AbstractDropdownView.getCurrentElement}
    */
   getCurrentElement(): HTMLElement {
-    if (this.index < 0) {
-      return this.listItems.first.nativeElement;
-    }
-    return this.listItems.toArray()[this.index].nativeElement;
+    return this.listItems.toArray()[this.index < 0 ? this.index = 0 : this.index].nativeElement;
   }
 
   /**
-   * @override
+   * @override {@link AbstractDropdownView.getListItems}
    */
   getListItems(): ListItem[] {
     return this._items;
   }
+
   /**
-   * @override
+   * Sets the selections states of {@link ListItem}s by the states from the passed items.
+   *
+   * @override {@link AbstractDropdownView.propagateSelected}
    */
-  propagateSelected(value: ListItem[]): void {
-    throw new Error('Method not implemented.');
+  propagateSelected(items: ListItem[]): void {
+    this.onItemsReady(() => {
+      if (!Array.isArray(items)) {
+        console.error(`${this.constructor.name}.propagateSelected expects a ListItem[], got ${JSON.stringify(items)}`);
+      }
+
+      for (let targetItem of this._items) {
+        const sourceItem = items.find(item => {
+          const tItem = _.clone(targetItem);
+          delete tItem.selected;
+          const sItem = _.clone(item);
+          delete sItem.selected;
+
+          return _.isEqual(tItem, sItem);
+        });
+
+        if (sourceItem) {
+          targetItem.selected = sourceItem.selected;
+        } else {
+          targetItem.selected = false;
+        }
+      }
+    });
   }
 
   /**
-   * @override
+   * @override {@link AbstractDropdownView.filterBy}
    */
   filterBy(query: string = ''): void {
     if (query) {
@@ -370,22 +401,39 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
   }
 
   /**
-   * @override
+   * @override {@link AbstractDropdownView.initFocus}
    */
   initFocus(): void {
-    throw new Error('Method not implemented.');
+    if (this.index < 0) {
+      this.updateIndex();
+    }
+
+    this.list.nativeElement.focus();
+    setTimeout(() => {
+      this.highlightedItem = this.getItemId(this.index);
+    });
   }
+
   /**
-   * @override
+   * @override {@link AbstractDropdownView.onItemsReady}
    */
   onItemsReady(subcription: () => void): void {
     (this._itemsReady || of(true)).pipe(first()).subscribe(subcription);
   }
+
   /**
-   * @override
+   * Bring the selected items to the top of the list.
+   *
+   * @override {@link AbstractDropdownView.reorderSelected}
    */
-  reorderSelected(moveFocus?: boolean | undefined): void {
-    throw new Error('Method not implemented.');
+  reorderSelected(moveFocus = true): void {
+    this.displayItems = this.getSelected().concat(this.getListItems().filter(i => !i.selected));
+    if (moveFocus) {
+      setTimeout(() => {
+        this.updateIndex();
+        this.highlightedItem = this.getItemId(this.index);
+      });
+    }
   }
 
 }
