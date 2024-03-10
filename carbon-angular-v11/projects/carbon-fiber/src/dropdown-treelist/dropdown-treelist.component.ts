@@ -4,6 +4,7 @@ import { AfterViewInit, ApplicationRef, Component, ElementRef, EventEmitter, Inp
 import { AbstractDropdownView, I18n, I18nModule, ListItem } from 'carbon-components-angular';
 // import { watchFocusJump } from 'carbon-components-angular/dropdown/dropdowntools';
 import { ScrollCustomEvent } from 'carbon-components-angular/dropdown/list/scroll-custom-event.interface';
+import { CommonModule } from '@angular/common';
 
 function watchFocusJump(target: HTMLElement, elements: any[]): Observable<HTMLElement> {
   return fromEvent(target, "keydown")
@@ -22,6 +23,7 @@ function watchFocusJump(target: HTMLElement, elements: any[]): Observable<HTMLEl
   selector: 'cf-dropdown-treelist',
   standalone: true,
   imports: [
+    CommonModule,
     I18nModule
   ],
   templateUrl: './dropdown-treelist.component.html',
@@ -56,7 +58,7 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
   protected _itemsSubscription?: Subscription; // _items
   protected _itemsReady?: Observable<boolean>; // _itemsReady
   protected focusJump?: Subscription;
-  @Input() itemTpl?: string | TemplateRef<any>;
+  @Input() itemTpl?: TemplateRef<any>;
 
   @Input() ariaLabel = this.i18n.get().DROPDOWN_LIST.LABEL;
   /**
@@ -436,4 +438,19 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
     }
   }
 
+  //
+  // Template invoked methods
+  //
+
+  navigateList(event: KeyboardEvent): void {
+
+  }
+
+  onClick(event: Event, item: ListItem): void {
+
+  }
+
+  onScroll(event: Event): void {
+
+  }
 }

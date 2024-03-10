@@ -1,0 +1,41 @@
+<!-- prettier-ignore -->
+<ul #list
+    class="cds--list-box__menu cds--multi-select" role="listbox" tabindex="-1"
+    [id]="listId"
+    [attr.aria-label]="ariaLabel" [attr.aria-activedescendant]="highlightedItem"
+    (scroll)="onScroll($event)" (keydown)="navigateList($event)">
+  <ng-container *ngFor="let item of displayItems">
+    <li class="cds--list-box__menu-item" role="option"
+        [ngClass]="{
+          'cds--list-box__menu-item--active': item.selected,
+          'cds--list-box__menu-item--highlighted': getItemId(index) === highlightedItem
+        }"
+        [id]="getItemId(index)"
+        [attr.title]="showTitles ? item.content : null"
+        [attr.diabled]="item.disabled ? true : null"
+        [attr.aria-selected]="item.selected"
+        (click)="onClick($event, item)">
+      <div #listItem
+           class="cds--list-box__menu-item__option" tabindex="-1">
+        <!-- Multiselect checkbox -->
+        <div class="cds--form-item cds--checkbox-wrapper"
+             *ngIf="type === 'multi' && !itemTpl">
+          <label class="cds--checkbox-label"
+                 [attr.data-contained-checkbox-state]="item.selected">
+            <input class="cds--checkbox-label" type="checkbox" tabindex="-1"
+                   [checked]="item.selected" [disabled]="item.disabled">
+            <span class="cds--checkbox-appearance"></span>
+            <span class="cds--checkobx-label-text">{{ item.content }}</span>
+          </label>
+        </div>
+        <!-- Single select checkmark -->
+        <!-- Use the ng-container ngif for svg as well? -->
+        <ng-container *ngIf="type === 'single' && !itemTpl">{{ item.content }}</ng-container>
+        <svg class="cds--list-box__menu-item__selected-icon"
+             cdsIcon="checkmark" size="16" *ngIf="type === 'single' && !itemTpl"></svg>
+        <!-- List item template -->
+        <ng-template *ngIf="itemTpl" [ngTemplateOutlet]="itemTpl" [ngTemplateOutletContext]="{ item: item }"></ng-template>
+      </div>
+    </li>
+  </ng-container>
+</ul>
