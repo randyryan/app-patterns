@@ -4,13 +4,13 @@
     [id]="listId"
     [attr.aria-label]="ariaLabel" [attr.aria-activedescendant]="highlightedItem"
     (scroll)="onScroll($event)" (keydown)="navigateList($event)">
-  <ng-container *ngFor="let item of displayItems">
+  <ng-container *ngFor="let item of displayItems; let i = index">
     <li class="cds--list-box__menu-item" role="option"
         [ngClass]="{
           'cds--list-box__menu-item--active': item.selected,
-          'cds--list-box__menu-item--highlighted': getItemId(index) === highlightedItem
+          'cds--list-box__menu-item--highlighted': getItemId(i) === highlightedItem
         }"
-        [id]="getItemId(index)"
+        [id]="getItemId(i)"
         [attr.title]="showTitles ? item.content : null"
         [attr.diabled]="item.disabled ? true : null"
         [attr.aria-selected]="item.selected"

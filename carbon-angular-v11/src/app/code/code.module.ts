@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { CodeRoutingModule } from './code-routing.module';
 import { CodeComponent } from './code.component';
-import { GridModule } from 'carbon-components-angular';
+import { DropdownModule, GridModule } from 'carbon-components-angular';
+import { DropdownTreelist } from 'carbon-fiber';
 
 
 @NgModule({
@@ -13,7 +14,9 @@ import { GridModule } from 'carbon-components-angular';
   imports: [
     CommonModule,
     CodeRoutingModule,
-    GridModule
+    GridModule,
+    DropdownModule,
+    DropdownTreelist
   ]
 })
 export class CodeModule { }

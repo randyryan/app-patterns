@@ -443,14 +443,64 @@ export class DropdownTreelist implements AbstractDropdownView, AfterViewInit, On
   //
 
   navigateList(event: KeyboardEvent): void {
+    if (event.key === "Enter" || event.key === " ") {
+      if (this.listItems.some(item => item.nativeElement === event.target)) {
+        event.preventDefault();
+      }
+      if (event.key === "Enter") {
+        this.onClick(event, this.getCurrentItem());
+      }
+    }
+    if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+      event.preventDefault();
+      if (event.key === "ArrowUp") {
+        if (this.hasPrevElement()) {
+          this.getPrevElement().scrollIntoView({ block: "nearest" });
+        } else {
+          this.blurIntent.emit("top");
+        }
+      }
+      if (event.key === "ArrowDown") {
+        if (this.hasNextElement()) {
+          this.getNextElement().scrollIntoView({ block: "end" });
+        } else {
+          this.blurIntent.emit("bottom");
+        }
+      }
 
+      setTimeout(() => this.highlightedItem = this.getItemId(this.index));
+    }
   }
 
   onClick(event: Event, item: ListItem): void {
+    event.preventDefault();
+    if (item && !item.disabled) {
+      this.list.nativeElement.focus();
 
+      if (this.type === "single") {
+        item.selected = true;
+        for (let otherItem of this.getListItems()) {
+          if (item !== otherItem) {
+            otherItem.selected = false;
+          }
+        }
+      }
+      if (this.type === "multi") {
+        item.selected = !item.selected;
+      }
+
+      this.index = this.displayItems.indexOf(item);
+      this.highlightedItem = this.getItemId(this.index);
+      this.emitSelect(false);
+      this.applicationRef.tick();
+    }
   }
 
-  onScroll(event: Event): void {
-
+  onScroll(event: any): void {
+    this.scroll.emit({
+      atTop: event.srcElement.scrollTip === 0,
+      atBottom: event.srcElement.scrollHeight - event.srcElement.scrollTop === event.srcElement.clientHeight,
+      event
+    });
   }
 }

@@ -1,10 +1,20 @@
-<div cdsGrid class="cds--grid cds--grid--nostalgic code">
+<div cdsGrid [fullWidth]="true" class="cds--grid cds--grid--nostalgic code">
   <div cdsRow>
-    <div cdsCol [columnNumbers]="{ lg: '16' }">
+    <div cdsCol [columnNumbers]="{ lg: '6' }">
       <h4>Collection:</h4>
       <ol>
         <li><a href="https://www.hec-group.com.tw">HEC/COMPUCASE :: 偉訓科技股份有限公司</a></li>
       </ol>
+    </div>
+    <div cdsCol [columnNumbers]="{ lg: '5' }">
+      <cds-dropdown #tree>
+        <cf-dropdown-treelist [items]="items" #treelist></cf-dropdown-treelist>
+      </cds-dropdown>
+    </div>
+    <div cdsCol [columnNumbers]="{ lg: '5' }">
+      <cds-dropdown>
+        <cds-dropdown-list [items]="items"></cds-dropdown-list>
+      </cds-dropdown>
     </div>
   </div>
 </div>
